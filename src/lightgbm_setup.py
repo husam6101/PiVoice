@@ -45,6 +45,7 @@ def preprocess_data(df):
 
     return df
 
+
 def train_model(df, target_column, test_size=0.2, random_state=42):
     """Train a LightGBM model on the dataset."""
     X = df.drop(target_column, axis=1)
@@ -74,6 +75,7 @@ def train_model(df, target_column, test_size=0.2, random_state=42):
     lgb_model = lgb.train(params, train_data, valid_sets=[test_data])
     return lgb_model, le
 
+
 def predict_command(model, label_encoder, data):
     """Predict the command for new sensor data."""
     pred_probs = model.predict([data])
@@ -83,14 +85,15 @@ def predict_command(model, label_encoder, data):
 
 def run_test():
     # Load the dataset
-    df = load_data('/Users\\husam\\Documents\\uni\\fyp\\Project\\PiVoice\\daatasets\\sensor_data.csv')
-    
+    df = load_data('~\\home\\pivoice\\PiVoice\\daatasets\\sensor_data.csv')
+
     # Preprocess the dataset (specify the correct time column name)
     df_preprocessed = preprocess_data(df)
-    
+
     # Train the LightGBM model
-    model, label_encoder = train_model(df_preprocessed, target_column='Commands')
-    
+    model, label_encoder = train_model(
+        df_preprocessed, target_column='Commands')
+
     # Predict a command (replace with actual sensor data)
     # Example data; include hour and day of week as numbers
     new_data = [12.33055077274342, -32.87537546617379,
