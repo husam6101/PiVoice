@@ -39,16 +39,16 @@ def process_audio(file_path):
     print("Transcription:", transcription)
 
     # Attempt to detect the language of the transcription
-    detected_language = translator.detect(transcription).lang
+    # detected_language = translator.detect(transcription).lang
 
     # Translate the transcription to English if it's not already in English
-    if detected_language != 'en':
-        english_translation = translator.translate(
-            transcription, src=detected_language, dest='en').text
-        print(f"Detected Language: {detected_language}")
-        print("English Translation:", english_translation)
-    else:
-        print("The transcription is likely in English.")
+    # if detected_language != 'en':
+    #     english_translation = translator.translate(
+    #         transcription, src=detected_language, dest='en').text
+    #     print(f"Detected Language: {detected_language}")
+    #     print("English Translation:", english_translation)
+    # else:
+    #     print("The transcription is likely in English.")
 
 # Main loop
 # while True:
