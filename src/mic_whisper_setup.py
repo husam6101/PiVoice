@@ -8,7 +8,7 @@ from googletrans import Translator
 samplerate = 44100  # Sample rate
 duration = 7  # Maximum duration of a recording in seconds
 silence_threshold = 0.05  # Silence threshold
-filename = "output.wav"
+filename = "../output.wav"
 
 
 def record_audio():
@@ -26,10 +26,10 @@ def record_audio():
 
 # Initialize Whisper model pipeline
 whisper_pipeline = pipeline(
-    model="openai/whisper-small", task="automatic-speech-recognition")
+    model="openai/whisper-tiny.en", task="automatic-speech-recognition")
 
 # Initialize Google Translate translator
-translator = Translator()
+# translator = Translator()
 
 
 def process_audio(file_path):
