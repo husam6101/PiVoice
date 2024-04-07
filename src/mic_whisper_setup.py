@@ -13,7 +13,7 @@ filename = "output.wav"
 def record_audio():
     print("Recording...")
     recording = sd.rec(int(duration * samplerate),
-                       samplerate=samplerate, channels=2, dtype='float64')
+                       samplerate=samplerate, channels=1, dtype='float64')
     sd.wait()
     if np.max(recording) < silence_threshold:
         print("Detected silence, not processing.")
