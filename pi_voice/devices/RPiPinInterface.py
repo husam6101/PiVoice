@@ -15,7 +15,7 @@ class RPiPinInterface:
     def _read_config(self):
         if platform.system() != 'Windows':
             with open(get_path_from(config["pinConfig"]), 'r') as config_file:
-                return json.load(config_file)
+                return json.load(config_file)["pins"]
 
         return {}
 
@@ -25,7 +25,7 @@ class RPiPinInterface:
     def get_gpios_for(self, device_name):
         if platform.system() != 'Windows':
             filtered_pin_configuration = [
-                x for x in self.config
+                x for x in self.config.values()
                 if "GPIO" in x["type"] and x["usedBy"] == device_name
             ]
             return [
