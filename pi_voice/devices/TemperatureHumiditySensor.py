@@ -15,7 +15,9 @@ class TemperatureHumiditySensor:
             gpio = gpios[0]  # Assuming only one GPIO is needed
 
             if platform.system() != 'Windows':
-                self.device = adafruit_dht.DHT22(gpio)
+                self.device = adafruit_dht.DHT22(
+                    self.pin_interface.get_board_pin_from(gpio)
+                )
         else:
             raise ValueError("No GPIOs available for device: " + device_name)
 

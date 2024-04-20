@@ -4,6 +4,7 @@ from pi_voice.config import config, get_path_from
 import platform
 
 import RPi.GPIO as GPIO
+import board
 
 GPIO.setmode(GPIO.BCM)
 
@@ -38,3 +39,11 @@ class RPiPinInterface:
     def setup_gpios_as_input_for(self, device_name):
         for pin in self.get_gpios_for(device_name):
             GPIO.setup(pin, GPIO.IN)
+
+    def get_board__pin_from(pin_number):
+        try:
+            # Dynamically get the attribute from the board module
+            return getattr(board, f"D{pin_number}")
+        except AttributeError:
+            print(f"Pin D{pin_number} does not exist.")
+            return None
