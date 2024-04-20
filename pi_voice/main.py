@@ -122,7 +122,7 @@ class MainProcess:
 
 def run():
     process = MainProcess()
-    is_ready_device = OutputDevice("isReadyLight")
+    is_ready_device = OutputDevice(config["devices"]["isReadyLight"])
     is_ready_device.on()
 
     process.main_thread().start()

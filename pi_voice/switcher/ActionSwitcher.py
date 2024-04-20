@@ -1,11 +1,12 @@
+from pi_voice.config import config
 from pi_voice.devices.OutputDevice import OutputDevice
 
 
 class ActionSwitcher:
     def __init__(self):
-        self.light = OutputDevice("light")
-        self.tv = OutputDevice("tv")
-        self.fan = OutputDevice("fan")
+        self.light = OutputDevice(config["devices"]["light"])
+        self.tv = OutputDevice(config["devices"]["screen"])
+        self.fan = OutputDevice(config["devices"]["fan"])
 
     def take_action(self, argument):
         switcher = {

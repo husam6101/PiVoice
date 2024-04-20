@@ -2,7 +2,7 @@
   "pins": {
     "1": {
       "type": "3V3",
-      "usedBy": null
+      "usedBy": "adafruit_dht.DHT22"
     },
     "2": {
       "type": "5V",
@@ -38,7 +38,7 @@
     },
     "9": {
       "type": "GND",
-      "usedBy": null
+      "usedBy": "adafruit_dht.DHT22"
     },
     "10": {
       "type": "GPIO15",
@@ -48,7 +48,7 @@
     "11": {
       "type": "GPIO17",
       "asPower": false,
-      "usedBy": null
+      "usedBy": "adafruit_dht.DHT22"
     },
     "12": {
       "type": "GPIO18",
@@ -134,11 +134,11 @@
     "29": {
       "type": "GPIO5",
       "asPower": false,
-      "usedBy": null
+      "usedBy": "Fan"
     },
     "30": {
       "type": "GND",
-      "usedBy": null
+      "usedBy": "Fan"
     },
     "31": {
       "type": "GPIO6",
@@ -157,7 +157,7 @@
     },
     "34": {
       "type": "GND",
-      "usedBy": null
+      "usedBy": "Bulb"
     },
     "35": {
       "type": "GPIO19",
@@ -167,7 +167,7 @@
     "36": {
       "type": "GPIO16",
       "asPower": false,
-      "usedBy": null
+      "usedBy": "Bulb"
     },
     "37": {
       "type": "GPIO26",
@@ -181,19 +181,20 @@
     },
     "39": {
       "type": "GND",
-      "usedBy": null
+      "usedBy": "KY-034 7 Color Flashing LED Module"
     },
     "40": {
       "type": "GPIO21",
       "asPower": false,
-      "usedBy": null
+      "usedBy": "KY-034 7 Color Flashing LED Module"
     }
   },
   "devices": {
     "temperatureHumiditySensor": "adafruit_dht.DHT22",
     "lightIntensitySensor": "UUGear Light Sensor",
-    "led": "LED",
+    "screen": "<no-screen-yet>",
+    "light": "Bulb",
     "fan": "Fan",
-    "isReadyDevice": "KY-034 7 Color Flashing LED Module"
+    "isReadyLight": "KY-034 7 Color Flashing LED Module"
   }
 }
