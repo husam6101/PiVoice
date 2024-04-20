@@ -1,10 +1,10 @@
 import json
 from pi_voice.config import config, get_path_from
+from pi_voice.devices.BoardMap import gpio_to_pin_map
 # from pi_voice.operators import logger
 import platform
 
 import RPi.GPIO as GPIO
-import board
 
 GPIO.setmode(GPIO.BCM)
 
@@ -40,10 +40,10 @@ class RPiPinInterface:
         for pin in self.get_gpios_for(device_name):
             GPIO.setup(pin, GPIO.IN)
 
-    def get_board_pin_from(pin_number):
+    def get_gpio_pin(self, gpio_number):
+        """Return the board pin corresponding to a given GPIO number."""
         try:
-            # Dynamically get the attribute from the board module
-            return getattr(board, f"D{pin_number}")
-        except AttributeError:
-            print(f"Pin D{pin_number} does not exist.")
+            return gpio_to_pin_map[gpio_number]
+        except KeyError:
+            print(f"GPIO number {gpio_number} is not valid or not available.")
             return None

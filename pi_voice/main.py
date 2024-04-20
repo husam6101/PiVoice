@@ -28,7 +28,7 @@ class MainProcess:
         recorded_file = self.audio_op.record_audio()
         return recorded_file
 
-    # BEING SENT AUDIO BIT SEQUENCe, MUST CONVERT TO FILE FIRST
+    # BEING SENT AUDIO BIT SEQUENCE, MUST CONVERT TO FILE FIRST
     def transcription_command_thread(self, audio):
         thread = threading.Thread(
             target=self._transcription_command_process,
@@ -89,7 +89,6 @@ class MainProcess:
                 continue
 
             if remaining_time > 0:
-                # Sleep until the remaining time is reached
                 time.sleep(remaining_time)
 
             self.lgbm.load_data_and_train_model()
