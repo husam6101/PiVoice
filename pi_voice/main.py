@@ -127,3 +127,6 @@ def run():
 
     process.main_thread().start()
     process.personalized_command_thread().start()
+
+
+run()
