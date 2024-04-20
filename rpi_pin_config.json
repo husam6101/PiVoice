@@ -1,0 +1,15 @@
+{
+    "temphumid": {
+        "name": "adafruit_dht.DHT22",
+        "gpio": 4
+    },
+    "light": {
+        "gpio": [22, 27]
+    },
+    "led": {
+        "gpio": 17
+    },
+    "fan": {
+        "gpio": 26
+    }
+}

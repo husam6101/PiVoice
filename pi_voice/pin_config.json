@@ -1,0 +1,199 @@
+{
+  "pins": {
+    "1": {
+      "type": "3V3",
+      "usedBy": null
+    },
+    "2": {
+      "type": "5V",
+      "usedBy": null
+    },
+    "3": {
+      "type": "GPIO2",
+      "asPower": false,
+      "usedBy": null
+    },
+    "4": {
+      "type": "5V",
+      "usedBy": null
+    },
+    "5": {
+      "type": "GPIO3",
+      "asPower": false,
+      "usedBy": null
+    },
+    "6": {
+      "type": "GND",
+      "usedBy": null
+    },
+    "7": {
+      "type": "GPIO4",
+      "asPower": false,
+      "usedBy": null
+    },
+    "8": {
+      "type": "GPIO14",
+      "asPower": false,
+      "usedBy": null
+    },
+    "9": {
+      "type": "GND",
+      "usedBy": null
+    },
+    "10": {
+      "type": "GPIO15",
+      "asPower": false,
+      "usedBy": null
+    },
+    "11": {
+      "type": "GPIO17",
+      "asPower": false,
+      "usedBy": null
+    },
+    "12": {
+      "type": "GPIO18",
+      "asPower": false,
+      "usedBy": null
+    },
+    "13": {
+      "type": "GPIO27",
+      "asPower": false,
+      "usedBy": null
+    },
+    "14": {
+      "type": "GND",
+      "usedBy": null
+    },
+    "15": {
+      "type": "GPIO22",
+      "asPower": false,
+      "usedBy": null
+    },
+    "16": {
+      "type": "GPIO23",
+      "asPower": false,
+      "usedBy": null
+    },
+    "17": {
+      "type": "3V3",
+      "usedBy": null
+    },
+    "18": {
+      "type": "GPIO24",
+      "asPower": false,
+      "usedBy": null
+    },
+    "19": {
+      "type": "GPIO10",
+      "asPower": false,
+      "usedBy": null
+    },
+    "20": {
+      "type": "GND",
+      "usedBy": null
+    },
+    "21": {
+      "type": "GPIO9",
+      "asPower": false,
+      "usedBy": null
+    },
+    "22": {
+      "type": "GPIO25",
+      "asPower": false,
+      "usedBy": null
+    },
+    "23": {
+      "type": "GPIO11",
+      "asPower": false,
+      "usedBy": null
+    },
+    "24": {
+      "type": "GPIO8",
+      "asPower": false,
+      "usedBy": null
+    },
+    "25": {
+      "type": "GND",
+      "usedBy": null
+    },
+    "26": {
+      "type": "GPIO7",
+      "asPower": false,
+      "usedBy": null
+    },
+    "27": {
+      "type": "GPIO0",
+      "asPower": false,
+      "usedBy": null
+    },
+    "28": {
+      "type": "GPIO1",
+      "asPower": false,
+      "usedBy": null
+    },
+    "29": {
+      "type": "GPIO5",
+      "asPower": false,
+      "usedBy": null
+    },
+    "30": {
+      "type": "GND",
+      "usedBy": null
+    },
+    "31": {
+      "type": "GPIO6",
+      "asPower": false,
+      "usedBy": null
+    },
+    "32": {
+      "type": "GPIO12",
+      "asPower": false,
+      "usedBy": null
+    },
+    "33": {
+      "type": "GPIO13",
+      "asPower": false,
+      "usedBy": null
+    },
+    "34": {
+      "type": "GND",
+      "usedBy": null
+    },
+    "35": {
+      "type": "GPIO19",
+      "asPower": false,
+      "usedBy": null
+    },
+    "36": {
+      "type": "GPIO16",
+      "asPower": false,
+      "usedBy": null
+    },
+    "37": {
+      "type": "GPIO26",
+      "asPower": false,
+      "usedBy": null
+    },
+    "38": {
+      "type": "GPIO20",
+      "asPower": false,
+      "usedBy": null
+    },
+    "39": {
+      "type": "GND",
+      "usedBy": null
+    },
+    "40": {
+      "type": "GPIO21",
+      "asPower": false,
+      "usedBy": null
+    }
+  },
+  "devices": {
+    "temperatureHumiditySensor": "adafruit_dht.DHT22",
+    "lightIntensitySensor": "UUGear Light Sensor",
+    "led": "LED",
+    "fan": "Fan",
+    "isReadyDevice": "KY-034 7 Color Flashing LED Module"
+  }
+}
