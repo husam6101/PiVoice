@@ -40,7 +40,7 @@ class RPiPinInterface:
         for pin in self.get_gpios_for(device_name):
             GPIO.setup(pin, GPIO.IN)
 
-    def get_board__pin_from(pin_number):
+    def get_board_pin_from(pin_number):
         try:
             # Dynamically get the attribute from the board module
             return getattr(board, f"D{pin_number}")
