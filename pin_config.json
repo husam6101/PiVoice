@@ -189,9 +189,11 @@
       "usedBy": "KY-034 7 Color Flashing LED Module"
     }
   },
+  "sensors": {
+    "temperatureHumidity": "adafruit_dht.DHT22",
+    "lightIntensity": "UUGear Light Sensor"
+  },
   "devices": {
-    "temperatureHumiditySensor": "adafruit_dht.DHT22",
-    "lightIntensitySensor": "UUGear Light Sensor",
     "screen": "<no-screen-yet>",
     "light": "Bulb",
     "fan": "Fan",

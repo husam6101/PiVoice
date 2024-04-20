@@ -16,8 +16,8 @@ config = {
     },
     "audio": "output.mp3",
     "sensors": {
-        "temperatureHumiditySensor": "adafruit_dht.DHT22",
-        "lightIntensitySensor": "UUGear Light Sensor",
+        "temperatureHumidity": "adafruit_dht.DHT22",
+        "lightIntensity": "UUGear Light Sensor",
     },
     "devices": {
         "screen": "<no-screen-yet>",
