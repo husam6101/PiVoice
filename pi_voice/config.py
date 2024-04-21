@@ -23,7 +23,7 @@ config = {
         "screen": "<no-screen-yet>",
         "light": "Bulb",
         "fan": "Fan",
-        "isReadyDevice": "KY-034 7 Color Flashing LED Module",
+        "isReadyLight": "KY-034 7 Color Flashing LED Module",
     },
 }
 
