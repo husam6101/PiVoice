@@ -29,8 +29,8 @@ class DataOperator:
     def extract_time_ranges(
             self,
             data,
-            time_column="time_of_day",
-            command_column="commands",
+            time_column="Time of Day",
+            command_column="Commands",
             ignore_commands=[],
             time_threshold=600,
     ):
