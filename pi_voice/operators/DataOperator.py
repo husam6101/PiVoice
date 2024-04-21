@@ -27,6 +27,7 @@ class DataOperator:
             return pickle.load(file)
 
     def extract_time_ranges(
+            self,
             data,
             time_column="time_of_day",
             command_column="commands",
@@ -74,7 +75,7 @@ class DataOperator:
                         end_time = row.time_of_day
         return time_ranges
 
-    def get_next_notable_timestamp(time_ranges):
+    def get_next_notable_timestamp(self, time_ranges):
         now = datetime.now().time()
 
         # Collect all notable times based on the 'only_start' parameter

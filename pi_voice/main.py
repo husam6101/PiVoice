@@ -33,7 +33,7 @@ class MainProcess:
             target=self._transcription_command_process,
             args=(audio,)
         )
-        thread.daemon = True
+        # thread.daemon = True
         return thread
 
     def _transcription_command_process(self, audio):
@@ -69,7 +69,7 @@ class MainProcess:
         thread = threading.Thread(
             target=self._personalized_command_process
         )
-        thread.daemon = True
+        # thread.daemon = True
         return thread
 
     def _personalized_command_process(self):
@@ -106,7 +106,7 @@ class MainProcess:
         thread = threading.Thread(
             target=self._run_main_process
         )
-        thread.daemon = True
+        # thread.daemon = True
         return thread
 
     def _run_main_process(self):
