@@ -2,7 +2,7 @@
   "pins": {
     "1": {
       "type": "3V3",
-      "usedBy": "adafruit_dht.DHT22"
+      "usedBy": "DHT22"
     },
     "2": {
       "type": "5V",
@@ -38,7 +38,7 @@
     },
     "9": {
       "type": "GND",
-      "usedBy": "adafruit_dht.DHT22"
+      "usedBy": "DHT22"
     },
     "10": {
       "type": "GPIO15",
@@ -48,7 +48,7 @@
     "11": {
       "type": "GPIO17",
       "asPower": false,
-      "usedBy": "adafruit_dht.DHT22"
+      "usedBy": "DHT22"
     },
     "12": {
       "type": "GPIO18",
@@ -190,7 +190,7 @@
     }
   },
   "sensors": {
-    "temperatureHumidity": "adafruit_dht.DHT22",
+    "temperatureHumidity": "DHT22",
     "lightIntensity": "UUGear Light Sensor"
   },
   "devices": {
