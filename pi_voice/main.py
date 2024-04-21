@@ -169,8 +169,8 @@ def run():
     action_switcher = ActionSwitcher()
     action_switcher.is_ready_device.on()
     try:
-        # process.main_thread().start()
-        process.personalized_command_thread().start()
+        process.main_thread().start()
+        # process.personalized_command_thread().start()
         signal.signal(
             signal.SIGINT,
             lambda signum,
