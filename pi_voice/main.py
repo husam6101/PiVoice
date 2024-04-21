@@ -165,15 +165,17 @@ class MainProcess:
 
 
 def run():
-    logger.info(">> Started main process")
     process = MainProcess()
     action_switcher = ActionSwitcher()
     action_switcher.is_ready_device.on()
     try:
-        process.main_thread().start()
+        # process.main_thread().start()
         process.personalized_command_thread().start()
-        signal.signal(signal.SIGINT, lambda signum,
-                      frame: action_switcher.reset_all())
+        signal.signal(
+            signal.SIGINT,
+            lambda signum,
+            frame: action_switcher.reset_all()
+        )
     except Exception:
         action_switcher.reset_all()
 
