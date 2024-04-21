@@ -124,11 +124,11 @@ class MainProcess:
             temp, humid, light = self.sensor_switcher.get_data()
             time_of_day, day_of_week = self._get_ToD_and_DoW()
             data_point = {
-                'Humidity (%)': humid,
-                'Temperature (C)': temp,
-                'Light Levels (lux)': 0,
-                'Time of Day': time_of_day,
-                'Day of Week': day_of_week
+                'humidity': [humid],
+                'temperature': [temp],
+                'light_levels': [0],
+                'time_of_day': [time_of_day],
+                'day_of_week': [day_of_week]
             }
             logger.info("Done.")
             logger.info("Predicting with LightGBM...")

@@ -126,11 +126,11 @@ def run_test():
 
     # Define a sample data point for prediction
     data_point = {
-        'Humidity (%)': [62.329812682755794],
-        'Temperature (C)': [76.38918225943932],
-        'Light Levels (lux)': [28747.42688003669],
-        'Time of Day': ['06:00'],
-        'Day of Week': ['Tue']
+        'humidity': [62.329812682755794],
+        'temperature': [76.38918225943932],
+        'light_levels': [28747.42688003669],
+        'time_of_day': ['06:00'],
+        'day_of_week': ['Tue']
     }
 
     # Make a prediction using the trained model
