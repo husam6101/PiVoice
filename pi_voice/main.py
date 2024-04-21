@@ -41,23 +41,28 @@ class MainProcess:
         print("Started transcription-command process")
         # 1. process audio into transcript
         transcript = self.whisper.process(audio)
+        print("Transcription: " + transcript)
 
         # 2. process transcript into command
         command = self.gpt.random_command(transcript)
+        print("Predicted command: " + command + ", activating command....")
 
         # 3. activate command
         self.action_switcher.activate(command)
+        print("Activated command.")
 
         # 4. get data from sensors and timestamps
         temp, humid, light = self.sensor_switcher.get_data()
         time_of_day, day_of_week = self._get_ToD_and_DoW()
 
+        print("Writing data to lgbm dataset...")
         # 5. save command in dataset for lgbm
         writing_lgbm_data.acquire()
         self.data_op.add_row_to_csv(
             [temp, humid, light, time_of_day, day_of_week, command]
         )
         writing_lgbm_data.release()
+        print("Finished writing data!")
 
         print("Ended transcription-command process, waiting for thread break")
         time.sleep(0.1)  # giving thread breaks
