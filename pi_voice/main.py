@@ -7,7 +7,6 @@ from pi_voice.operators.DataOperator import DataOperator
 from pi_voice.operators.LGBMOperator import LGBMOperator
 from pi_voice.switcher.ActionSwitcher import ActionSwitcher
 from pi_voice.switcher.SensorSwitcher import SensorSwitcher
-from pi_voice.devices.OutputDevice import OutputDevice
 
 import threading
 import datetime
@@ -121,11 +120,13 @@ class MainProcess:
 
 def run():
     process = MainProcess()
-    is_ready_device = OutputDevice(config["devices"]["isReadyLight"])
-    is_ready_device.on()
-
-    process.main_thread().start()
-    process.personalized_command_thread().start()
+    action_switcher = ActionSwitcher()
+    action_switcher.is_ready_device.on()
+    try:
+        process.main_thread().start()
+        process.personalized_command_thread().start()
+    except Exception:
+        action_switcher.reset_all()
 
 
 run()

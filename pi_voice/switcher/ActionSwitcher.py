@@ -7,6 +7,7 @@ class ActionSwitcher:
         self.light = OutputDevice(config["devices"]["light"])
         self.tv = OutputDevice(config["devices"]["screen"])
         self.fan = OutputDevice(config["devices"]["fan"])
+        self.is_ready_device = OutputDevice(config["devices"]["isReadyLight"])
 
     def take_action(self, argument):
         switcher = {
@@ -40,3 +41,9 @@ class ActionSwitcher:
 
     def do_nothing(self):
         pass  # default
+
+    def reset_all(self):
+        self.light_off()
+        self.tv_off()
+        self.fan_off()
+        self.is_ready_device.off()
