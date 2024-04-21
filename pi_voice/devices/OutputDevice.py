@@ -16,7 +16,11 @@ class OutputDevice:
         GPIO.setup(self.gpio, GPIO.OUT)
 
     def on(self):
+        print(">> Setting GPIO #" + self.gpio + " to " + GPIO.HIGH)
         GPIO.output(self.gpio, GPIO.HIGH)
+        print(">> Current GPIO state: " + GPIO.input(self.gpio))
 
     def off(self):
+        print(">> Setting GPIO #" + self.gpio + " to " + GPIO.LOW)
         GPIO.output(self.gpio, GPIO.LOW)
+        print(">> Current GPIO state: " + GPIO.input(self.gpio))
