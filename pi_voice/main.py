@@ -61,6 +61,7 @@ class MainProcess:
         print(">> Data being added to CSV:")
         print([temp, humid, light, time_of_day, day_of_week, command])
         self.data_op.add_row_to_csv(
+            get_path_from(config["lgbm"]["dataset"]),
             [temp, humid, light, time_of_day, day_of_week, command]
         )
         writing_lgbm_data.release()
