@@ -5,7 +5,7 @@ from pi_voice.devices.OutputDevice import OutputDevice
 class ActionSwitcher:
     def __init__(self):
         self.light = OutputDevice(config["devices"]["light"])
-        self.tv = OutputDevice(config["devices"]["screen"])
+        # self.tv = OutputDevice(config["devices"]["screen"])
         self.fan = OutputDevice(config["devices"]["fan"])
         self.is_ready_device = OutputDevice(config["devices"]["isReadyLight"])
 
@@ -28,9 +28,11 @@ class ActionSwitcher:
         self.light.off()
 
     def tv_on(self):
+        pass
         self.tv_on()
 
     def tv_off(self):
+        pass
         self.tv.off()
 
     def fan_on(self):

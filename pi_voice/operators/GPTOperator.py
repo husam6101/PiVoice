@@ -1,5 +1,5 @@
 import random
-from pi_voice.operators import logger
+# from pi_voice.operators import logger
 
 
 class GPTOperator:
@@ -11,9 +11,10 @@ class GPTOperator:
         command_list = [
             "light_on",
             "light_off",
-            "tv_on",
-            "tv_off",
+            # "tv_on",
+            # "tv_off",
             "fan_on",
             "fan_off",
-            "do_nothing"]
+            # "do_nothing"
+        ]
         return random.choice(command_list)

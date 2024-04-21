@@ -38,35 +38,37 @@ class MainProcess:
         return thread
 
     def _transcription_command_process(self, audio):
-        print("Started transcription-command process")
+        print(">> Started transcription-command process")
         # 1. process audio into transcript
         transcript = self.whisper.process(audio)
-        print("Transcription: " + transcript)
+        print(">> Transcription: " + transcript)
 
         # 2. process transcript into command
         command = self.gpt.random_command(transcript)
-        print("Predicted command: " + command + ", activating command....")
+        print(">> Predicted command: " + command + ", activating command....")
 
         # 3. activate command
         self.action_switcher.take_action(command)
-        print("Activated command.")
+        print(">> Activated command.")
 
         # 4. get data from sensors and timestamps
         temp, humid, light = self.sensor_switcher.get_data()
         time_of_day, day_of_week = self._get_ToD_and_DoW()
 
-        print("Writing data to lgbm dataset...")
+        print(">> Writing data to lgbm dataset...")
         # 5. save command in dataset for lgbm
         writing_lgbm_data.acquire()
+        print(">> Data being added to CSV:")
+        print([temp, humid, light, time_of_day, day_of_week, command])
         self.data_op.add_row_to_csv(
             [temp, humid, light, time_of_day, day_of_week, command]
         )
         writing_lgbm_data.release()
-        print("Finished writing data!")
+        print(">> Finished writing data!")
 
-        print("Ended transcription-command process, waiting for thread break")
+        print(">> Ended transcription-command process, waiting for thread break...")
         time.sleep(0.1)  # giving thread breaks
-        print("Thread break ended.")
+        print(">> Thread break ended.")
 
     def _get_ToD_and_DoW(self):  # Time of Day and Day of Week
         current_date = datetime.datetime.now()
@@ -82,7 +84,7 @@ class MainProcess:
         return thread
 
     def _personalized_command_process(self):
-        print("Started personalized command process")
+        print(">> Started personalized command process")
         while True:
             writing_lgbm_data.acquire()
             target_time = self._get_next_notable_timestamp()
@@ -129,7 +131,7 @@ class MainProcess:
 
 
 def run():
-    print("Started main process")
+    print(">> Started main process")
     process = MainProcess()
     action_switcher = ActionSwitcher()
     action_switcher.is_ready_device.on()
