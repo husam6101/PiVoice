@@ -40,7 +40,7 @@ class RPiPinInterface:
         for pin in self.get_gpios_for(device_name):
             GPIO.setup(pin, GPIO.IN)
 
-    def get_gpio_pin(self, gpio_number):
+    def get_gpio_pin_from(self, gpio_number):
         """Return the board pin corresponding to a given GPIO number."""
         try:
             return gpio_to_pin_map[gpio_number]
