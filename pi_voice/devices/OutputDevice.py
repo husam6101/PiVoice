@@ -9,8 +9,7 @@ class OutputDevice:
         # Create an instance of RPiPinInterface
         self.rpi_pin_interface = RPiPinInterface()
 
-        self.gpio = self.rpi_pin_interface.get_gpios_for(
-            device_name)  # Call the instance method
+        self.gpio = self.rpi_pin_interface.get_gpios_for(device_name)[0]
 
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.gpio, GPIO.OUT)
@@ -21,6 +20,6 @@ class OutputDevice:
         print(">> Current GPIO state: " + GPIO.input(self.gpio))
 
     def off(self):
-        print(">> Setting GPIO #" + self.gpio + " to " + GPIO.LOW)
+        print(">> Setting GPIO #" + self.gpio + " to " + GPIO.HIGH)
         GPIO.output(self.gpio, GPIO.LOW)
         print(">> Current GPIO state: " + GPIO.input(self.gpio))
