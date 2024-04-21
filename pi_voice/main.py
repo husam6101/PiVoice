@@ -68,7 +68,7 @@ class MainProcess:
         time.sleep(0.1)  # giving thread breaks
         print("Thread break ended.")
 
-    def _get_ToD_and_DoW():  # Time of Day and Day of Week
+    def _get_ToD_and_DoW(self):  # Time of Day and Day of Week
         current_date = datetime.datetime.now()
         day_of_week = current_date.strftime("%a")
         time_of_day = current_date.strftime("%H:%M")
@@ -135,7 +135,7 @@ def run():
     action_switcher.is_ready_device.on()
     try:
         process.main_thread().start()
-        process.personalized_command_thread().start()
+        # process.personalized_command_thread().start()
     except Exception:
         action_switcher.reset_all()
 
