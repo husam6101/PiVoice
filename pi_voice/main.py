@@ -24,6 +24,7 @@ class MainProcess:
         self.lgbm = LGBMOperator()
 
     def record_audio(self):
+        print("Recording audio...")
         recorded_file = self.audio_op.record_audio()
         return recorded_file
 
@@ -37,6 +38,7 @@ class MainProcess:
         return thread
 
     def _transcription_command_process(self, audio):
+        print("Started transcription-command process")
         # 1. process audio into transcript
         transcript = self.whisper.process(audio)
 
@@ -57,7 +59,9 @@ class MainProcess:
         )
         writing_lgbm_data.release()
 
+        print("Ended transcription-command process, waiting for thread break")
         time.sleep(0.1)  # giving thread breaks
+        print("Thread break ended.")
 
     def _get_ToD_and_DoW():  # Time of Day and Day of Week
         current_date = datetime.datetime.now()
@@ -73,6 +77,7 @@ class MainProcess:
         return thread
 
     def _personalized_command_process(self):
+        print("Started personalized command process")
         while True:
             writing_lgbm_data.acquire()
             target_time = self._get_next_notable_timestamp()
@@ -119,6 +124,7 @@ class MainProcess:
 
 
 def run():
+    print("Started main process")
     process = MainProcess()
     action_switcher = ActionSwitcher()
     action_switcher.is_ready_device.on()
