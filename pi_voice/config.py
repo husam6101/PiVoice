@@ -14,12 +14,12 @@ config = {
         "testSize": 0.2,
         "randomState": 42,
     },
-    "gpt2":{
-        "model": "models/gp2",
+    "gpt2": {
+        "model": "models/gpt2",
         "labelMap": {
             "tv_off": 0,
             "tv_on": 1,
-            "light_off": 2,  
+            "light_off": 2,
             "light_on": 3,
             "ac_off": 4,
             "ac_on": 5,
