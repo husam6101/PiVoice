@@ -48,7 +48,7 @@ class MainProcess:
         print("Predicted command: " + command + ", activating command....")
 
         # 3. activate command
-        self.action_switcher.activate(command)
+        self.action_switcher.take_action(command)
         print("Activated command.")
 
         # 4. get data from sensors and timestamps
