@@ -46,6 +46,6 @@ class ActionSwitcher:
 
     def reset_all(self):
         self.light_off()
-        self.tv_off()
+        # self.tv_off()
         self.fan_off()
         self.is_ready_device.off()

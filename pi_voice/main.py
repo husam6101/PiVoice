@@ -19,7 +19,7 @@ class MainProcess:
     def __init__(self):
         self.audio_op = AudioOperator()
         self.whisper = WhisperOperator()
-        self.gpt = GPTOperator()
+        self.gpt2 = GPTOperator()
         self.action_switcher = ActionSwitcher()
         self.sensor_switcher = SensorSwitcher()
         self.data_op = DataOperator()
@@ -47,7 +47,7 @@ class MainProcess:
 
         # 2. process transcript into command
         logger.info("Predicing action...")
-        command = self.gpt.random_command(transcript)
+        command = self.gpt2.predict(transcript)
         logger.info("Done, predicted command: " + command)
 
         # 3. activate command

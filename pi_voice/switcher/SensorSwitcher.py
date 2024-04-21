@@ -5,7 +5,8 @@ from pi_voice.config import config
 class SensorSwitcher:
     def __init__(self):
         self.temperature_humidity_sensor = TemperatureHumiditySensor(
-            config["sensors"]["temperatureHumidity"])
+            config["sensors"]["temperatureHumidity"]
+        )
         # init light sensor
 
     def get_data(self):
