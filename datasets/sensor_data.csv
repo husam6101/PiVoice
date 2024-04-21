@@ -1,4 +1,4 @@
-Humidity (%),Temperature (C),Light Levels (lux),Commands,Time of Day,Day of Week
+humidity,temperature,light_levels,commands,time_of_day,day_of_week
 77.22447692966574,4.944814261683497,115493.67539305335,light_off,07:00,Mon
 19.87156815341724,74.08571676918994,30213.875499043697,light_on,21:00,Tue
 0.5522117123602399,47.83927301736861,59669.820707086255,light_off,07:00,Sun
