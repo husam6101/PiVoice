@@ -14,6 +14,18 @@ config = {
         "testSize": 0.2,
         "randomState": 42,
     },
+    "gpt2":{
+        "model": "models/gp2",
+        "labelMap": {
+            "tv_off": 0,
+            "tv_on": 1,
+            "light_off": 2,  
+            "light_on": 3,
+            "ac_off": 4,
+            "ac_on": 5,
+            "do_nothing": 6,
+        },
+    },
     "audio": "output.mp3",
     "sensors": {
         "temperatureHumidity": "adafruit_dht.DHT22",

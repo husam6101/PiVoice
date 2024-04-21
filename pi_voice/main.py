@@ -19,7 +19,7 @@ class MainProcess:
     def __init__(self):
         self.audio_op = AudioOperator()
         self.whisper = WhisperOperator()
-        self.gpt = GPTOperator()
+        self.gpt2 = GPTOperator()
         self.action_switcher = ActionSwitcher()
         self.sensor_switcher = SensorSwitcher()
         self.data_op = DataOperator()
@@ -47,7 +47,7 @@ class MainProcess:
 
         # 2. process transcript into command
         logger.info("Predicing action...")
-        command = self.gpt.random_command(transcript)
+        command = self.gpt2.predict(transcript)
         logger.info("Done, predicted command: " + command)
 
         # 3. activate command
@@ -124,11 +124,11 @@ class MainProcess:
             temp, humid, light = self.sensor_switcher.get_data()
             time_of_day, day_of_week = self._get_ToD_and_DoW()
             data_point = {
-                'humidity': [humid],
-                'temperature': [temp],
-                'light_levels': [0],
-                'time_of_day': [time_of_day],
-                'day_of_week': [day_of_week]
+                'Humidity (%)': humid,
+                'Temperature (C)': temp,
+                'Light Levels (lux)': 0,
+                'Time of Day': time_of_day,
+                'Day of Week': day_of_week
             }
             logger.info("Done.")
             logger.info("Predicting with LightGBM...")
