@@ -78,9 +78,7 @@ class DataRecordingProcess:
                     self.error_queue.put((str(e), "process_errors", ErrorSeverity.LOW))
                     continue
                 finally:
-                    logger.info("Waiting for thread break...")
                     self.action_prediction_finished_event.clear()
-                    time.sleep(0.1)
 
                 if self.stop_flag.is_set():
                     self.active_processes_count -= 1

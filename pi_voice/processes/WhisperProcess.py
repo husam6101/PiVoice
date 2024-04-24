@@ -37,7 +37,7 @@ class WhisperProcess:
                 try:
                     audio = self.audio_pipe.recv()
                 
-                    try
+                    try:
                         future = self.executor.submit(self.whisper.process, audio)
                         transcript = future.result()
                     except Exception as e:
