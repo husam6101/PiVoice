@@ -100,7 +100,7 @@ class ProcessManager:
         whisper_process.start()
         gpt2_process.start()
 
-        with ThreadPoolExecutor() as executor:
+        with ThreadPoolExecutor(max_workers=5) as executor:
             executor.submit(error_handling_thread.run)
             executor.submit(audio_p.run)
             executor.submit(data_recording_p.run)
