@@ -83,6 +83,7 @@ class ProcessManager:
         )
         personalized_command_p = PersonalizedCommandProcess(
             self.sensor_switcher,
+            self.action_switcher,
             self.error_queue,
             self.stop_flag,
             self.active_processes_count,
