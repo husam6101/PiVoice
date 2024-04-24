@@ -34,6 +34,7 @@ class AudioProcess:
             
             try:
                 audio = retry_on_exception(self._record_audio())
+                logger.debug(audio)
                 try:
                     if audio is None:
                         continue
@@ -46,6 +47,7 @@ class AudioProcess:
                     self.error_queue.put((str(e), "thread_errors", ErrorSeverity.LOW))
                     continue
             except Exception as e:
+                logger.info(f"Error recording audio: {e}")
                 self.error_queue.put((str(e), "thread_errors", ErrorSeverity.HIGH))
 
     def _record_audio(self):
