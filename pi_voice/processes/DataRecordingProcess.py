@@ -67,7 +67,7 @@ class DataRecordingProcess:
 
                     try:
                         logger.info("Writing data file...")
-                        writing_lgbm_data.acquire()
+                        writing_lgbm_data.acquire(timeout=2.0)
                         retry_on_exception(
                             self.data_op.add_row_to_csv(
                                 get_path_from(config["lgbm"]["dataset"]),

@@ -68,7 +68,7 @@ class LGBMOperator:
 
     def load_data_and_train_model(self, save=True):
         # Load the dataset using the instance of DataOperator
-        writing_lgbm_data.acquire()
+        writing_lgbm_data.acquire(timeout=2.0)
         df = self.data_operator.load_csv(
             get_path_from(config["lgbm"]["dataset"])
         )
@@ -87,7 +87,7 @@ class LGBMOperator:
             self._save_model(model, label_encoder)
 
     def _save_model(self, model, label_encoder):
-        writing_lgbm_model.acquire()
+        writing_lgbm_model.acquire(timeout=2.0)
         model.save_model(get_path_from(config["lgbm"]["model"]))
         self.data_operator.save_label_encoder(
             label_encoder,

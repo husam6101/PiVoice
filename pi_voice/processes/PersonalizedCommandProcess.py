@@ -42,7 +42,7 @@ class PersonalizedCommandProcess:
             try:
                 target_time = None
                 try:
-                    writing_lgbm_data.acquire()
+                    writing_lgbm_data.acquire(timeout=2.0)
                     logger.info("Getting next target time...")
                     target_time = retry_on_exception(get_next_notable_timestamp())
                     writing_lgbm_data.release()
