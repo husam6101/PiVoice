@@ -32,7 +32,7 @@ class AudioProcess:
                 self.active_processes_count.value -= 1
                 break
             
-            audio = None
+            audio
             try:
                 audio = retry_on_exception(self._record_audio())
             except Exception as e:
