@@ -21,7 +21,7 @@ class DataRecordingProcess:
         action_prediction_finished_event: Event,
         error_queue: Queue,
         stop_flag: Event,
-        active_processes_count: Synchronized[int],
+        active_processes_count: Synchronized,
     ):
         self.data_op: DataOperator = DataOperator()
         self.sensor_switcher: SensorSwitcher = sensor_switcher
@@ -29,7 +29,7 @@ class DataRecordingProcess:
         self.action_prediction_finished_event: Event = action_prediction_finished_event
         self.error_queue: Queue = error_queue
         self.stop_flag: Event = stop_flag
-        self.active_processes_count: Synchronized[int] = active_processes_count
+        self.active_processes_count: Synchronized = active_processes_count
 
     def run(self, action):
         self.active_processes_count += 1

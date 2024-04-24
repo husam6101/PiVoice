@@ -16,7 +16,7 @@ class WhisperProcess:
         transcription_finished_event: Event,
         error_queue: Queue,
         stop_flag: Event,
-        active_processes_count: Synchronized[int],
+        active_processes_count: Synchronized,
     ):
         self.whisper_pipe = whisper_pipe
         self.audio_pipe = audio_pipe
@@ -26,7 +26,7 @@ class WhisperProcess:
         self.executor: ThreadPoolExecutor = ThreadPoolExecutor(max_workers=2)
         self.error_queue: Queue = error_queue
         self.stop_flag: Event = stop_flag
-        self.active_processes_count: Synchronized[int] = active_processes_count
+        self.active_processes_count: Synchronized = active_processes_count
 
     def run(self):
         self.active_processes_count += 1

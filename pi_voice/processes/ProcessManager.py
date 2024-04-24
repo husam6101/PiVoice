@@ -37,7 +37,7 @@ class ProcessManager:
         # stop flag and active processes count for graceful shutdown
         self.error_queue: Queue = Queue()
         self.stop_flag: Event = mp.Event()
-        self.active_processes_count: Synchronized[int] = mp.Value(c_int, 0)
+        self.active_processes_count: Synchronized = mp.Value(c_int, 0)
 
     def start(self):
         audio_p = AudioProcess(

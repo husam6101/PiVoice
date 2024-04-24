@@ -14,11 +14,11 @@ class ErrorHandlingThread:
         self,
         error_queue: Queue,
         stop_flag: Event,
-        active_process_count: Synchronized[int],
+        active_process_count: Synchronized,
     ) -> None:
         self.error_queue: Queue = error_queue
         self.stop_flag: Event = stop_flag
-        self.active_process_count: Synchronized[int] = active_process_count
+        self.active_process_count: Synchronized = active_process_count
 
     def run(self):
         # handle exit operations and signals

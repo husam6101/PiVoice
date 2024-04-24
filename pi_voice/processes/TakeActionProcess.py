@@ -15,14 +15,14 @@ class TakeActionProcess:
         action_prediction_finished_event: Event,
         error_queue: Queue,
         stop_flag: Event,
-        active_processes_count: Synchronized[int],
+        active_processes_count: Synchronized,
     ) -> None:
         self.action_switcher: ActionSwitcher = action_switcher
         self.gpt2_pipe = gpt2_pipe
         self.action_prediction_finished_event: Event = action_prediction_finished_event
         self.error_queue: Queue = error_queue
         self.stop_flag: Event = stop_flag
-        self.active_processes_count: Synchronized[int] = active_processes_count
+        self.active_processes_count: Synchronized = active_processes_count
 
     def run(self):
         self.active_processes_count += 1
