@@ -104,8 +104,8 @@ class ProcessManager:
             executor.submit(error_handling_thread.run)
             executor.submit(audio_p.run)
             executor.submit(data_recording_p.run)
-            executor.submit(personalized_command_p.run)
-            executor.submit(take_action_p.run)
+            executor.submit(take_action_p.run) 
+            # executor.submit(personalized_command_p.run)
 
         whisper_process.join()
         gpt2_process.join()
