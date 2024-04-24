@@ -3,6 +3,7 @@ from pi_voice.config import config, get_path_from
 
 import datetime
 import time
+import asyncio
 
 
 # Time of Day and Day of Week
@@ -30,4 +31,4 @@ def retry_on_exception(func, max_retries=3, delay=0.1):
             if i < max_retries - 1:
                 time.sleep(delay)
             else:
-                raise
+                raise e
