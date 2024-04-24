@@ -1,5 +1,4 @@
 from multiprocessing.synchronize import Event
-from multiprocessing.connection import PipeConnection
 from multiprocessing.sharedctypes import Synchronized
 import multiprocessing as mp
 from queue import Queue
@@ -28,9 +27,9 @@ class ProcessManager:
         self.action_switcher = action_switcher
 
         # declaring pipes and events
-        self.audio_pipe: PipeConnection = mp.Pipe()
-        self.whisper_pipe: PipeConnection = mp.Pipe()
-        self.gpt2_pipe: PipeConnection = mp.Pipe()
+        self.audio_pipe = mp.Pipe()
+        self.whisper_pipe = mp.Pipe()
+        self.gpt2_pipe = mp.Pipe()
         self.recording_audio_finished_event: Event = mp.Event()
         self.transcription_finished_event: Event = mp.Event()
         self.action_prediction_finished_event: Event = mp.Event()

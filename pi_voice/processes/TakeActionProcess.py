@@ -1,4 +1,3 @@
-from multiprocessing.connection import PipeConnection
 from multiprocessing.sharedctypes import Synchronized
 from multiprocessing.synchronize import Event
 from queue import Queue
@@ -12,14 +11,14 @@ class TakeActionProcess:
     def __init__(
         self,
         action_switcher: ActionSwitcher,
-        gpt2_pipe: PipeConnection,
+        gpt2_pipe,
         action_prediction_finished_event: Event,
         error_queue: Queue,
         stop_flag: Event,
         active_processes_count: Synchronized[int],
     ) -> None:
         self.action_switcher: ActionSwitcher = action_switcher
-        self.gpt2_pipe: PipeConnection = gpt2_pipe
+        self.gpt2_pipe = gpt2_pipe
         self.action_prediction_finished_event: Event = action_prediction_finished_event
         self.error_queue: Queue = error_queue
         self.stop_flag: Event = stop_flag

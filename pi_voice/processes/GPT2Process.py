@@ -1,5 +1,4 @@
 from concurrent.futures import ThreadPoolExecutor
-from multiprocessing.connection import PipeConnection
 from multiprocessing.sharedctypes import Synchronized
 from multiprocessing.synchronize import Event
 from queue import Queue
@@ -11,16 +10,16 @@ from pi_voice.processes.ErrorHandling import ErrorSeverity
 class GPT2Process:
     def __init__(
         self,
-        whisper_pipe: PipeConnection,
-        gpt2_pipe: PipeConnection,
+        whisper_pipe,
+        gpt2_pipe,
         transcription_finished_event: Event,
         action_prediction_finished_event: Event,
         error_queue: Queue,
         stop_flag: Event,
         active_processes_count: Synchronized[int],
     ):
-        self.whisper_pipe: PipeConnection = whisper_pipe
-        self.gpt2_pipe: PipeConnection = gpt2_pipe
+        self.whisper_pipe = whisper_pipe
+        self.gpt2_pipe = gpt2_pipe
         self.transcription_finished_event: Event = transcription_finished_event
         self.action_prediction_finished_event: Event = action_prediction_finished_event
         self.gpt2: GPTOperator = GPTOperator()

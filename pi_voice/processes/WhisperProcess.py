@@ -1,5 +1,4 @@
 from multiprocessing.synchronize import Event
-from multiprocessing.connection import PipeConnection
 from multiprocessing.sharedctypes import Synchronized
 from queue import Queue
 
@@ -11,16 +10,16 @@ from pi_voice.processes.ErrorHandling import ErrorSeverity
 class WhisperProcess:
     def __init__(
         self,
-        audio_pipe: PipeConnection,  # entry point
-        whisper_pipe: PipeConnection,  # exit point
+        audio_pipe,  # entry point
+        whisper_pipe,  # exit point
         recorded_audio_event: Event,
         transcription_finished_event: Event,
         error_queue: Queue,
         stop_flag: Event,
         active_processes_count: Synchronized[int],
     ):
-        self.whisper_pipe: PipeConnection = whisper_pipe
-        self.audio_pipe: PipeConnection = audio_pipe
+        self.whisper_pipe = whisper_pipe
+        self.audio_pipe = audio_pipe
         self.recorded_audio_event: Event = recorded_audio_event
         self.transcription_finished_event: Event = transcription_finished_event
         self.whisper: WhisperOperator = WhisperOperator()

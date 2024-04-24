@@ -1,5 +1,4 @@
 from multiprocessing.synchronize import Event
-from multiprocessing.connection import PipeConnection
 from multiprocessing.sharedctypes import Synchronized
 from queue import Queue
 
@@ -12,14 +11,14 @@ from pi_voice.utils.common import retry_on_exception
 class AudioProcess:
     def __init__(
         self,
-        audio_pipe: PipeConnection,  # exit point
+        audio_pipe,  # exit point
         recording_audio_finished_event: Event,
         error_queue: Queue,
         stop_flag: Event,
         active_processes_count: Synchronized[int],
     ):
         self.audio_op = AudioOperator()
-        self.audio_pipe: PipeConnection = audio_pipe
+        self.audio_pipe = audio_pipe
         self.recording_audio_finished_event: Event = recording_audio_finished_event
         self.error_queue: Queue = error_queue
         self.stop_flag: Event = stop_flag
