@@ -89,7 +89,9 @@ class ProcessManager:
             self.active_processes_count,
         )
         error_handling_thread = ErrorHandlingThread(
-            self.stop_flag, self.active_processes_count
+            self.error_queue,
+            self.stop_flag,
+            self.active_processes_count,
         )
 
         whisper_process = mp.Process(target=whisper_p.run)
