@@ -36,6 +36,7 @@ class GPT2Process:
                 try:
                     transcript = self.whisper_pipe.recv()
 
+                    action = None
                     try:
                         future = self.executor.submit(self.gpt2.predict, transcript)
                         action = future.result()

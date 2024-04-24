@@ -31,12 +31,17 @@ class AudioProcess:
             if self.stop_flag.is_set():
                 self.active_processes_count.value -= 1
                 break
+            
+            audio = None
             try:
                 audio = retry_on_exception(self._record_audio())
             except Exception as e:
                 self.error_queue.put((str(e), "thread_errors", ErrorSeverity.HIGH))
 
             try:
+                if audio is None:
+                    continue
+                
                 logger.info("Sending audio to whisper process...")
                 self.audio_pipe.send(audio)
                 self.recording_audio_finished_event.set()

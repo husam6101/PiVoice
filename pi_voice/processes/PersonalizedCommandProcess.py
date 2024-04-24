@@ -40,6 +40,7 @@ class PersonalizedCommandProcess:
                 self.active_processes_count.value -= 1
                 break
             try:
+                target_time = None
                 try:
                     writing_lgbm_data.acquire()
                     logger.info("Getting next target time...")
@@ -92,6 +93,7 @@ class PersonalizedCommandProcess:
             self.error_queue.put((str(e), "model_errors", ErrorSeverity.CRITICAL))
             return None
 
+        data_point = None
         try:
             logger.info("Getting data...")
             temp, humid, light = retry_on_exception(self.sensor_switcher.get_data())
@@ -99,7 +101,7 @@ class PersonalizedCommandProcess:
             data_point = {
                 "humidity": humid,
                 "temperature": temp,
-                "light_levels": 0,
+                "light_levels": light,
                 "time_of_day": time_of_day,
                 "day_of_week": day_of_week,
             }

@@ -35,7 +35,8 @@ class WhisperProcess:
             if self.recorded_audio_event.wait(timeout=2):
                 try:
                     audio = self.audio_pipe.recv()
-                
+
+                    transcript = None
                     try:
                         future = self.executor.submit(self.whisper.process, audio)
                         transcript = future.result()

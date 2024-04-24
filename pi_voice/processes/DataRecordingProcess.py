@@ -39,6 +39,13 @@ class DataRecordingProcess:
                 try:
                     self.gpt2_pipe.recv()
 
+                    temp, humid, light, time_of_day, day_of_week = (
+                        None,
+                        None,
+                        None,
+                        None,
+                        None
+                    )
                     try:
                         logger.info("Fetching data from sensors...")
                         temp, humid, light = retry_on_exception(
