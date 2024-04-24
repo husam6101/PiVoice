@@ -27,6 +27,7 @@ class ErrorHandlingThread:
 
         # handle errors
         while True:
+            logger.info("Waiting for error queue...")
             message, group, severity = self.error_queue.get()
 
             if severity == ErrorSeverity.CRITICAL or severity == ErrorSeverity.HIGH:

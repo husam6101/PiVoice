@@ -34,13 +34,15 @@ class AudioProcess:
             try:
                 audio = retry_on_exception(self._record_audio())
             except Exception as e:
-                self.error_queue.put((str(e), "AudioProcess", ErrorSeverity.HIGH))
+                self.error_queue.put((str(e), "thread_errors", ErrorSeverity.HIGH))
 
             try:
+                logger.info("Sending audio to whisper process...")
                 self.audio_pipe.send(audio)
                 self.recording_audio_finished_event.set()
             except Exception as e:
-                self.error_queue.put((str(e), "AudioProcess", ErrorSeverity.LOW))
+                logger.info(f"Error sending audio to whisper process: {e}")
+                self.error_queue.put((str(e), "thread_errors", ErrorSeverity.LOW))
 
     def _record_audio(self):
         logger.info("Recording audio...")
