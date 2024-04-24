@@ -33,11 +33,11 @@ class PersonalizedCommandProcess:
         self.active_processes_count: Synchronized = active_processes_count
 
     def run(self):
-        self.active_processes_count += 1
+        self.active_processes_count.value += 1
 
         while True:
             if self.stop_flag.is_set():
-                self.active_processes_count -= 1
+                self.active_processes_count.value -= 1
                 break
             try:
                 try:

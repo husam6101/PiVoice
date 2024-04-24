@@ -32,7 +32,7 @@ class DataRecordingProcess:
         self.active_processes_count: Synchronized = active_processes_count
 
     def run(self, action):
-        self.active_processes_count += 1
+        self.active_processes_count.value += 1
 
         while True:
             if self.action_prediction_finished_event.wait(timeout=4):
@@ -80,8 +80,8 @@ class DataRecordingProcess:
                     self.action_prediction_finished_event.clear()
 
                 if self.stop_flag.is_set():
-                    self.active_processes_count -= 1
+                    self.active_processes_count.value -= 1
                     break
             elif self.stop_flag.is_set():
-                self.active_processes_count -= 1
+                self.active_processes_count.value -= 1
                 break

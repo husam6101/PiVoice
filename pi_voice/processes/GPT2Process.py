@@ -29,7 +29,7 @@ class GPT2Process:
         self.active_processes_count: Synchronized = active_processes_count
 
     def run(self):
-        self.active_processes_count += 1
+        self.active_processes_count.value += 1
 
         while True:
             if self.transcription_finished_event.wait(timeout=3):
@@ -54,8 +54,8 @@ class GPT2Process:
                     self.transcription_finished_event.clear()
 
                 if self.stop_flag.is_set():
-                    self.active_processes_count -= 1
+                    self.active_processes_count.value -= 1
                     break
             elif self.stop_flag.is_set():
-                self.active_processes_count -= 1
+                self.active_processes_count.value -= 1
                 break
