@@ -27,9 +27,9 @@ class ProcessManager:
         self.action_switcher = action_switcher
 
         # declaring pipes and events
-        self.audio_pipe = mp.Pipe()
-        self.whisper_pipe = mp.Pipe()
-        self.gpt2_pipe = mp.Pipe()
+        self.audio_pipe_sender, self.audio_pipe_receiver = mp.Pipe()
+        self.whisper_pipe_sender, self.whisper_pipe_receiver = mp.Pipe()
+        self.gpt2_pipe_sender, self.gpt2_pipe_receiver = mp.Pipe()
         self.recording_audio_finished_event: Event = mp.Event()
         self.transcription_finished_event: Event = mp.Event()
         self.action_prediction_finished_event: Event = mp.Event()
@@ -41,15 +41,15 @@ class ProcessManager:
 
     def start(self):
         audio_p = AudioProcess(
-            self.audio_pipe,
+            self.audio_pipe_sender,
             self.recording_audio_finished_event,
             self.error_queue,
             self.stop_flag,
             self.active_processes_count,
         )
         whisper_p = WhisperProcess(
-            self.audio_pipe,
-            self.whisper_pipe,
+            self.audio_pipe_receiver,
+            self.whisper_pipe_sender,
             self.recording_audio_finished_event,
             self.transcription_finished_event,
             self.error_queue,
@@ -57,8 +57,8 @@ class ProcessManager:
             self.active_processes_count,
         )
         gpt2_p = GPT2Process(
-            self.whisper_pipe,
-            self.gpt2_pipe,
+            self.whisper_pipe_receiver,
+            self.gpt2_pipe_sender,
             self.transcription_finished_event,
             self.action_prediction_finished_event,
             self.error_queue,
@@ -67,7 +67,7 @@ class ProcessManager:
         )
         take_action_p = TakeActionProcess(
             self.sensor_switcher,
-            self.gpt2_pipe,
+            self.gpt2_pipe_receiver,
             self.action_prediction_finished_event,
             self.error_queue,
             self.stop_flag,
@@ -75,7 +75,7 @@ class ProcessManager:
         )
         data_recording_p = DataRecordingProcess(
             self.sensor_switcher,
-            self.gpt2_pipe,
+            self.gpt2_pipe_receiver,
             self.action_prediction_finished_event,
             self.error_queue,
             self.stop_flag,
