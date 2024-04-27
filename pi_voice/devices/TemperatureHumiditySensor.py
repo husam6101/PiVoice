@@ -1,10 +1,11 @@
 import platform
-import random
 from pi_voice.devices.RPiPinInterface import RPiPinInterface
 # from pi_voice.operators import logger
 
 if platform.system() != 'Windows':
     import adafruit_dht
+else:
+    from pi_voice.mocks import adafruit_dht
 
 
 class TemperatureHumiditySensor:
@@ -14,15 +15,11 @@ class TemperatureHumiditySensor:
         if len(gpios) > 0:
             gpio = gpios[0]  # Assuming only one GPIO is needed
 
-            if platform.system() != 'Windows':
-                self.device = adafruit_dht.DHT22(
-                    self.pin_interface.get_board_pin_from(gpio)
-                )
+            self.device = adafruit_dht.DHT22(
+                self.pin_interface.get_board_pin_from(gpio)
+            )
         else:
             raise ValueError("No GPIOs available for device: " + device_name)
 
     def get_data(self):
-        if platform.system() != 'Windows':
-            return self.device.temperature, self.device.humidity
-
-        return random.uniform(5, 30), random.uniform(30, 70)
+        return self.device.temperature, self.device.humidity

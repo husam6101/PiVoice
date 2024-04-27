@@ -1,6 +1,10 @@
 from pi_voice.devices.RPiPinInterface import RPiPinInterface
+import platform
 
-import RPi.GPIO as GPIO
+if (platform.system() != "Windows"):
+    import RPi.GPIO as GPIO
+else:
+    import pi_voice.mocks.GPIO as GPIO
 
 
 class OutputDevice:

@@ -4,7 +4,10 @@ from pi_voice.devices.BoardMap import gpio_to_pin_map
 # from pi_voice.operators import logger
 import platform
 
-import RPi.GPIO as GPIO
+if (platform.system() != "Windows"):
+    import RPi.GPIO as GPIO
+else:
+    import pi_voice.mocks.GPIO as GPIO
 
 GPIO.setmode(GPIO.BCM)
 
