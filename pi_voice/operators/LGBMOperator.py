@@ -6,7 +6,6 @@ import pandas as pd
 from pi_voice.utils.synchronization import writing_lgbm_data, writing_lgbm_model
 from pi_voice.operators.DataOperator import DataOperator
 from pi_voice.config import config, get_path_from
-# from pi_voice.operators import logger
 
 
 class LGBMOperator:

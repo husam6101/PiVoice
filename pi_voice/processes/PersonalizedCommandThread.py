@@ -2,7 +2,7 @@ import time
 from multiprocessing.synchronize import Event
 from multiprocessing.sharedctypes import Synchronized
 from queue import Queue
-from pi_voice.operators import logger
+from pi_voice import logger
 from pi_voice.operators.LGBMOperator import LGBMOperator
 from pi_voice.processes.ErrorHandling import ErrorSeverity
 from pi_voice.switcher.SensorSwitcher import SensorSwitcher

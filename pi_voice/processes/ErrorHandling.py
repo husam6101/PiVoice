@@ -6,7 +6,7 @@ import time
 import signal
 import atexit
 
-from pi_voice.operators import logger
+from pi_voice import logger
 from pi_voice.switcher.ActionSwitcher import ActionSwitcher
 
 

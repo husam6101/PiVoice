@@ -1,6 +1,5 @@
 import platform
 from pi_voice.devices.RPiPinInterface import RPiPinInterface
-# from pi_voice.operators import logger
 
 if platform.system() != 'Windows':
     import adafruit_dht

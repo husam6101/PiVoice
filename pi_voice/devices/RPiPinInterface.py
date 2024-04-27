@@ -1,7 +1,6 @@
 import json
 from pi_voice.config import config, get_path_from
 from pi_voice.devices.BoardMap import gpio_to_pin_map
-# from pi_voice.operators import logger
 import platform
 
 if (platform.system() != "Windows"):

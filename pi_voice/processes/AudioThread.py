@@ -3,7 +3,7 @@ from multiprocessing.sharedctypes import Synchronized
 from queue import Queue
 
 from pi_voice.operators.AudioOperator import AudioOperator
-from pi_voice.operators import logger
+from pi_voice import logger
 from pi_voice.processes.ErrorHandling import ErrorSeverity
 from pi_voice.utils.common import retry_on_exception
 
@@ -33,8 +33,8 @@ class AudioThread:
                 break
             
             try:
-                audio = retry_on_exception(self._record_audio())
-                logger.debug(audio)
+                logger.info("Recording audio...")
+                audio = retry_on_exception(self._record_audio)
                 try:
                     if audio is None:
                         continue
@@ -43,14 +43,13 @@ class AudioThread:
                     self.audio_pipe.send(audio)
                     self.recording_audio_finished_event.set()
                 except Exception as e:
-                    logger.info(f"Error sending audio to whisper process: {e}")
+                    logger.error(f"Error sending audio to whisper process: {e}")
                     self.error_queue.put((str(e), "thread_errors", ErrorSeverity.LOW))
                     continue
             except Exception as e:
-                logger.info(f"Error recording audio: {e}")
+                logger.error(f"Error recording audio: {e}")
                 self.error_queue.put((str(e), "thread_errors", ErrorSeverity.HIGH))
 
     def _record_audio(self):
-        logger.info("Recording audio...")
         recording = self.audio_op.record_audio()
         return recording

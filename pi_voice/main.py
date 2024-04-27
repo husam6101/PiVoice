@@ -7,7 +7,7 @@ from pi_voice.operators.DataOperator import DataOperator
 from pi_voice.operators.LGBMOperator import LGBMOperator
 from pi_voice.switcher.ActionSwitcher import ActionSwitcher
 from pi_voice.switcher.SensorSwitcher import SensorSwitcher
-from pi_voice.operators import logger
+from pi_voice import logger
 
 import threading
 import datetime

@@ -1,4 +1,4 @@
-from pi_voice.operators import logger
+from pi_voice import logger
 
 import pi_voice.main_multiprocess
 

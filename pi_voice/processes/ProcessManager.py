@@ -1,4 +1,4 @@
-from pi_voice.operators import logger
+from pi_voice import logger
 from multiprocessing.synchronize import Event
 from multiprocessing.sharedctypes import Synchronized
 import multiprocessing as mp

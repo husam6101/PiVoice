@@ -3,7 +3,7 @@ from multiprocessing.synchronize import Event
 from queue import Queue
 
 from pi_voice.config import config, get_path_from
-from pi_voice.operators import logger
+from pi_voice import logger
 from pi_voice.operators.DataOperator import DataOperator
 from pi_voice.processes.ErrorHandling import ErrorSeverity
 from pi_voice.switcher.SensorSwitcher import SensorSwitcher

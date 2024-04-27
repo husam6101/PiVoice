@@ -1,6 +1,5 @@
 from transformers import pipeline
 import threading
-from pi_voice.operators import logger
 
 
 class WhisperOperator:

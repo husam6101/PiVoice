@@ -1,7 +1,6 @@
 from transformers import GPT2Tokenizer, GPT2ForSequenceClassification
 import torch
 import random
-# from pi_voice.operators import logger
 from pi_voice.config import config, get_path_from
 
 

@@ -2,7 +2,7 @@ import pandas as pd
 import csv
 import pickle
 from datetime import datetime, time
-from pi_voice.operators import logger
+from pi_voice import logger
 
 
 class DataOperator:
