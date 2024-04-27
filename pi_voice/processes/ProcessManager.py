@@ -6,12 +6,12 @@ from ctypes import c_int
 
 from pi_voice.switcher.SensorSwitcher import SensorSwitcher
 from pi_voice.switcher.ActionSwitcher import ActionSwitcher
-from pi_voice.processes.AudioProcess import AudioProcess
+from pi_voice.processes.AudioThread import AudioThread
 from pi_voice.processes.WhisperProcess import WhisperProcess
 from pi_voice.processes.GPT2Process import GPT2Process
-from pi_voice.processes.DataRecordingProcess import DataRecordingProcess
-from pi_voice.processes.PersonalizedCommandProcess import PersonalizedCommandProcess
-from pi_voice.processes.TakeActionProcess import TakeActionProcess
+from pi_voice.processes.DataRecordingThread import DataRecordingThread
+from pi_voice.processes.PersonalizedCommandThread import PersonalizedCommandThread
+from pi_voice.processes.TakeActionThread import TakeActionThread
 from pi_voice.processes.ErrorHandling import ErrorHandlingThread
 from concurrent.futures import ThreadPoolExecutor
 
@@ -21,7 +21,7 @@ class ProcessManager:
         self,
         sensor_switcher: SensorSwitcher,
         action_switcher: ActionSwitcher,
-    ) -> None:
+    ):
         # switcher gets passed because it initializes devices
         self.sensor_switcher = sensor_switcher
         self.action_switcher = action_switcher
@@ -40,7 +40,7 @@ class ProcessManager:
         self.active_processes_count: Synchronized = mp.Value(c_int, 0)
 
     def start(self):
-        audio_p = AudioProcess(
+        audio_p = AudioThread(
             self.audio_pipe_sender,
             self.recording_audio_finished_event,
             self.error_queue,
@@ -65,7 +65,7 @@ class ProcessManager:
             self.stop_flag,
             self.active_processes_count,
         )
-        take_action_p = TakeActionProcess(
+        take_action_p = TakeActionThread(
             self.sensor_switcher,
             self.gpt2_pipe_receiver,
             self.action_prediction_finished_event,
@@ -73,7 +73,7 @@ class ProcessManager:
             self.stop_flag,
             self.active_processes_count,
         )
-        data_recording_p = DataRecordingProcess(
+        data_recording_p = DataRecordingThread(
             self.sensor_switcher,
             self.gpt2_pipe_receiver,
             self.action_prediction_finished_event,
@@ -81,7 +81,7 @@ class ProcessManager:
             self.stop_flag,
             self.active_processes_count,
         )
-        personalized_command_p = PersonalizedCommandProcess(
+        personalized_command_p = PersonalizedCommandThread(
             self.sensor_switcher,
             self.action_switcher,
             self.error_queue,

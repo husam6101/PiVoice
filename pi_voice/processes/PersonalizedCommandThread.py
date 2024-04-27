@@ -16,7 +16,7 @@ from pi_voice.utils.common import (
 )
 
 
-class PersonalizedCommandProcess:
+class PersonalizedCommandThread:
     def __init__(
         self,
         sensor_switcher: SensorSwitcher,

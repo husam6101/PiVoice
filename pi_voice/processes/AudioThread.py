@@ -8,7 +8,7 @@ from pi_voice.processes.ErrorHandling import ErrorSeverity
 from pi_voice.utils.common import retry_on_exception
 
 
-class AudioProcess:
+class AudioThread:
     def __init__(
         self,
         audio_pipe,  # exit point

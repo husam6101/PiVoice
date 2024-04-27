@@ -35,20 +35,14 @@ class WhisperProcess:
             if self.recorded_audio_event.wait(timeout=2):
                 try:
                     audio = self.audio_pipe.recv()
-
-                    transcript = None
-                    try:
-                        future = self.executor.submit(self.whisper.process, audio)
-                        transcript = future.result()
-                    except Exception as e:
-                        self.error_queue.put((str(e), "model_errors", ErrorSeverity.CRITICAL))
-                        continue
+                    
+                    future = self.executor.submit(self.whisper.process, audio)
+                    transcript = future.result()
                     
                     self.whisper_pipe.send(transcript)
                     self.transcription_finished_event.set()
                 except Exception as e:
-                    self.error_queue.put((str(e), "process_errors", ErrorSeverity.LOW))
-                    continue
+                    self.error_queue.put((str(e), "model_errors", ErrorSeverity.CRITICAL))
                 finally:
                     self.recorded_audio_event.clear()
                 

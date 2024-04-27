@@ -36,20 +36,15 @@ class GPT2Process:
                 try:
                     transcript = self.whisper_pipe.recv()
 
-                    action = None
-                    try:
-                        future = self.executor.submit(self.gpt2.predict, transcript)
-                        action = future.result()
-                    except Exception as e:
-                        self.error_queue.put(
-                            (str(e), "model_errors", ErrorSeverity.CRITICAL)
-                        )
-                        continue
+                    future = self.executor.submit(self.gpt2.predict, transcript)
+                    action = future.result()
 
                     self.gpt2_pipe.send(action)
                     self.action_prediction_finished_event.set()
                 except Exception as e:
-                    self.error_queue.put((str(e), "process_errors", ErrorSeverity.LOW))
+                    self.error_queue.put(
+                        (str(e), "model_errors", ErrorSeverity.CRITICAL)
+                    )
                     continue
                 finally:
                     self.transcription_finished_event.clear()
