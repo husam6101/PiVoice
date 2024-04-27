@@ -1,8 +1,7 @@
 import sounddevice as sd
 from scipy.io.wavfile import write
 import numpy as np
-from pi_voice.operators import logger
-
+from pi_voice.config import config
 
 class AudioOperator:
     def __init__(
@@ -10,7 +9,7 @@ class AudioOperator:
             samplerate=44100,
             duration=10,
             silence_threshold=0.05,
-            filename="output.wav"
+            filename=config["audio"]
     ):
         self.samplerate = samplerate
         self.duration = duration
