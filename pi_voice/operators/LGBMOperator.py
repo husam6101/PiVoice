@@ -22,7 +22,7 @@ class LGBMOperator:
         return hours + minutes / 60.0
 
     def _preprocess_data(self, df):
-        df['Hour'] = df['Time of Day'].apply(
+        df['hour'] = df['time_of_day'].apply(
             self._convert_time_to_fractional_hours
         )
 
@@ -35,9 +35,8 @@ class LGBMOperator:
             'Sat': 6,
             'Sun': 7
         }
-        df['DayOfWeek'] = df['Day of Week'].map(day_mapping)
-
-        df.drop(columns=['Time of Day', 'Day of Week'], inplace=True)
+        df['time_of_day'] = pd.to_numeric(df['time_of_day'], errors='coerce')
+        df['day_of_week'] = df['day_of_week'].map(day_mapping)
         return df
 
     def _train_model(self, df, target_column):
@@ -74,13 +73,12 @@ class LGBMOperator:
         )
         writing_lgbm_data.release()
 
-        # Preprocess the dataset for LGBM
         df_preprocessed = self._preprocess_data(df)
 
         # Train the LightGBM model
         model, label_encoder = self._train_model(
             df_preprocessed,
-            target_column='Commands'
+            target_column='commands'
         )
 
         if save is True:
