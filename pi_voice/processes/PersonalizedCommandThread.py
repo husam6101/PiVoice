@@ -11,7 +11,7 @@ from pi_voice.utils.synchronization import writing_lgbm_data
 
 from pi_voice.utils.common import (
     get_next_notable_timestamp,
-    get_ToD_and_DoW,
+    get_time_of_day_and_day_of_week,
     retry_on_exception,
 )
 
@@ -97,7 +97,7 @@ class PersonalizedCommandThread:
         try:
             logger.info("Getting data...")
             temp, humid, light = retry_on_exception(self.sensor_switcher.get_data)
-            time_of_day, day_of_week = get_ToD_and_DoW()
+            time_of_day, day_of_week = get_time_of_day_and_day_of_week()
             data_point = {
                 "humidity": humid,
                 "temperature": temp,

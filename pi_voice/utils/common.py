@@ -7,7 +7,7 @@ import asyncio
 
 
 # Time of Day and Day of Week
-def get_ToD_and_DoW():
+def get_time_of_day_and_day_of_week():
     current_date = datetime.datetime.now()
     day_of_week = current_date.strftime("%a")
     time_of_day = current_date.strftime("%H:%M")

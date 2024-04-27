@@ -7,7 +7,7 @@ from pi_voice.operators import logger
 from pi_voice.operators.DataOperator import DataOperator
 from pi_voice.processes.ErrorHandling import ErrorSeverity
 from pi_voice.switcher.SensorSwitcher import SensorSwitcher
-from pi_voice.utils.common import get_ToD_and_DoW, retry_on_exception
+from pi_voice.utils.common import get_time_of_day_and_day_of_week, retry_on_exception
 from pi_voice.utils.synchronization import writing_lgbm_data
 
 import time
@@ -35,7 +35,7 @@ class DataRecordingThread:
         try:
             logger.info("Fetching data from sensors...")
             temp, humid, light = retry_on_exception(self.sensor_switcher.get_data)
-            time_of_day, day_of_week = get_ToD_and_DoW()
+            time_of_day, day_of_week = get_time_of_day_and_day_of_week()
             logger.info("Done.")
             logger.info(
                 "Data to be written to file: "
