@@ -9,8 +9,8 @@ config = {
     "pinConfig": "pin_config.json",
     "lgbm": {
         "dataset": "datasets/sensor_data.csv",
-        "model": "models/lgbm.txt",
-        "labelEncoder": "models/lgbm_label_encoder.pkl",
+        "model": "models/lgbm/model.txt",
+        "labelEncoder": "models/lgbm/label_encoder.pkl",
         "testSize": 0.2,
         "randomState": 42,
     },
