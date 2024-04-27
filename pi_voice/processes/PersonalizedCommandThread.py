@@ -44,7 +44,7 @@ class PersonalizedCommandThread:
                 try:
                     writing_lgbm_data.acquire(timeout=2.0)
                     logger.info("Getting next target time...")
-                    target_time = retry_on_exception(get_next_notable_timestamp())
+                    target_time = retry_on_exception(get_next_notable_timestamp)
                     writing_lgbm_data.release()
                     logger.info("Done. Target time is " + str(target_time))
                 except Exception as e:
@@ -74,7 +74,7 @@ class PersonalizedCommandThread:
 
                 try:
                     logger.info("Activating action...")
-                    retry_on_exception(self.action_switcher.take_action(prediction))
+                    retry_on_exception(self.action_switcher.take_action, (prediction,))
                     logger.info("Done.")
                 except Exception as e:
                     self.error_queue.put((str(e), "device_errors", ErrorSeverity.HIGH))
@@ -96,7 +96,7 @@ class PersonalizedCommandThread:
         data_point = None
         try:
             logger.info("Getting data...")
-            temp, humid, light = retry_on_exception(self.sensor_switcher.get_data())
+            temp, humid, light = retry_on_exception(self.sensor_switcher.get_data)
             time_of_day, day_of_week = get_ToD_and_DoW()
             data_point = {
                 "humidity": humid,

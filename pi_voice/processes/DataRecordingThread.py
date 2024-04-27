@@ -34,22 +34,16 @@ class DataRecordingThread:
     def get_data(self, action):
         try:
             logger.info("Fetching data from sensors...")
-            temp, humid, light = retry_on_exception(
-                self.sensor_switcher.get_data()
-            )
+            temp, humid, light = retry_on_exception(self.sensor_switcher.get_data)
             time_of_day, day_of_week = get_ToD_and_DoW()
             logger.info("Done.")
             logger.info(
                 "Data to be written to file: "
-                + str(
-                    [temp, humid, light, time_of_day, day_of_week, action]
-                )
+                + str([temp, humid, light, time_of_day, day_of_week, action])
             )
             return [temp, humid, light, time_of_day, day_of_week, action]
         except Exception as e:
-            self.error_queue.put(
-                (str(e), "device_errors", ErrorSeverity.HIGH)
-            )
+            self.error_queue.put((str(e), "device_errors", ErrorSeverity.HIGH))
 
     def run(self, action):
         self.active_processes_count.value += 1
@@ -66,10 +60,11 @@ class DataRecordingThread:
                         logger.info("Writing data file...")
                         writing_lgbm_data.acquire(timeout=2.0)
                         retry_on_exception(
-                            self.data_op.add_row_to_csv(
+                            self.data_op.add_row_to_csv,
+                            (
                                 get_path_from(config["lgbm"]["dataset"]),
                                 data,
-                            )
+                            ),
                         )
                         writing_lgbm_data.release()
                         logger.info("Done.")

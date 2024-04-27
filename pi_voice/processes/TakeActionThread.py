@@ -32,7 +32,7 @@ class TakeActionThread:
                 try:
                     action = self.gpt2_pipe.recv()
 
-                    retry_on_exception(self.action_switcher.take_action(action))
+                    retry_on_exception(self.action_switcher.take_action, (action,))
 
                 except Exception as e:
                     self.error_queue.put((str(e), "device_errors", ErrorSeverity.HIGH))

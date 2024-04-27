@@ -23,10 +23,13 @@ def get_next_notable_timestamp():
         )
     )
 
-def retry_on_exception(func, max_retries=3, delay=0.1):
+def retry_on_exception(func, *args, **kwargs):
+    max_retries = 3
+    delay = 0.1
+    
     for i in range(max_retries):
         try:
-            return func()
+            return func(*args, **kwargs)
         except Exception as e:
             if i < max_retries - 1:
                 time.sleep(delay)
