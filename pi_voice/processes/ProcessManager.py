@@ -1,7 +1,9 @@
+from pi_voice.operators import logger
 from multiprocessing.synchronize import Event
 from multiprocessing.sharedctypes import Synchronized
 import multiprocessing as mp
-from queue import Queue
+from queue import Queue as q
+from multiprocessing.queues import Queue as mq
 from ctypes import c_int
 
 from pi_voice.switcher.SensorSwitcher import SensorSwitcher
@@ -35,7 +37,10 @@ class ProcessManager:
         self.action_prediction_finished_event: Event = mp.Event()
 
         # stop flag and active processes count for graceful shutdown
-        self.error_queue: Queue = Queue()
+
+        self.thread_error_queue: q = q()
+        self.process_error_queue: mq = mq(ctx=mp.get_context())
+
         self.stop_flag: Event = mp.Event()
         self.active_processes_count: Synchronized = mp.Value(c_int, 0)
 
@@ -43,7 +48,7 @@ class ProcessManager:
         audio_p = AudioThread(
             self.audio_pipe_sender,
             self.recording_audio_finished_event,
-            self.error_queue,
+            self.thread_error_queue,
             self.stop_flag,
             self.active_processes_count,
         )
@@ -52,16 +57,17 @@ class ProcessManager:
             self.whisper_pipe_sender,
             self.recording_audio_finished_event,
             self.transcription_finished_event,
-            self.error_queue,
+            self.process_error_queue,
             self.stop_flag,
             self.active_processes_count,
         )
+
         gpt2_p = GPT2Process(
             self.whisper_pipe_receiver,
             self.gpt2_pipe_sender,
             self.transcription_finished_event,
             self.action_prediction_finished_event,
-            self.error_queue,
+            self.process_error_queue,
             self.stop_flag,
             self.active_processes_count,
         )
@@ -69,7 +75,7 @@ class ProcessManager:
             self.sensor_switcher,
             self.gpt2_pipe_receiver,
             self.action_prediction_finished_event,
-            self.error_queue,
+            self.thread_error_queue,
             self.stop_flag,
             self.active_processes_count,
         )
@@ -77,19 +83,20 @@ class ProcessManager:
             self.sensor_switcher,
             self.gpt2_pipe_receiver,
             self.action_prediction_finished_event,
-            self.error_queue,
+            self.thread_error_queue,
             self.stop_flag,
             self.active_processes_count,
         )
         personalized_command_p = PersonalizedCommandThread(
             self.sensor_switcher,
             self.action_switcher,
-            self.error_queue,
+            self.thread_error_queue,
             self.stop_flag,
             self.active_processes_count,
         )
         error_handling_thread = ErrorHandlingThread(
-            self.error_queue,
+            self.thread_error_queue,
+            self.process_error_queue,
             self.stop_flag,
             self.active_processes_count,
         )

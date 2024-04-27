@@ -1,6 +1,7 @@
 from multiprocessing.synchronize import Event
 from multiprocessing.sharedctypes import Synchronized
-from queue import Queue
+from queue import Queue as q
+from multiprocessing.queues import Queue as mq
 import time
 import signal
 import atexit
@@ -12,11 +13,13 @@ from pi_voice.switcher.ActionSwitcher import ActionSwitcher
 class ErrorHandlingThread:
     def __init__(
         self,
-        error_queue: Queue,
+        thread_error_queue: q,
+        process_error_queue: mq,
         stop_flag: Event,
         active_process_count: Synchronized,
     ) -> None:
-        self.error_queue: Queue = error_queue
+        self.thread_error_queue: q = thread_error_queue
+        self.process_error_queue: mq = process_error_queue,
         self.stop_flag: Event = stop_flag
         self.active_process_count: Synchronized = active_process_count
 
@@ -28,7 +31,7 @@ class ErrorHandlingThread:
         # handle errors
         while True:
             logger.info("Waiting for error queue...")
-            message, group, severity = self.error_queue.get()
+            message, group, severity = self.thread_error_queue.get()
 
             if severity == ErrorSeverity.CRITICAL or severity == ErrorSeverity.HIGH:
                 self.end_all()

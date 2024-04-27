@@ -1,7 +1,7 @@
 from concurrent.futures import ThreadPoolExecutor
 from multiprocessing.sharedctypes import Synchronized
 from multiprocessing.synchronize import Event
-from queue import Queue
+from multiprocessing.queues import Queue
 
 from pi_voice.operators.GPTOperator import GPTOperator
 from pi_voice.processes.ErrorHandling import ErrorSeverity
@@ -23,13 +23,13 @@ class GPT2Process:
         self.transcription_finished_event: Event = transcription_finished_event
         self.action_prediction_finished_event: Event = action_prediction_finished_event
         self.gpt2: GPTOperator = GPTOperator()
-        self.executor: ThreadPoolExecutor = ThreadPoolExecutor(max_workers=2)
         self.error_queue: Queue = error_queue
         self.stop_flag: Event = stop_flag
         self.active_processes_count: Synchronized = active_processes_count
 
     def run(self):
         self.active_processes_count.value += 1
+        self.executor: ThreadPoolExecutor = ThreadPoolExecutor(max_workers=2)
 
         while True:
             if self.transcription_finished_event.wait(timeout=3):

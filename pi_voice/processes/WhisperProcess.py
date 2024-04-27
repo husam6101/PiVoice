@@ -1,6 +1,6 @@
 from multiprocessing.synchronize import Event
 from multiprocessing.sharedctypes import Synchronized
-from queue import Queue
+from multiprocessing.queues import Queue
 
 from concurrent.futures import ThreadPoolExecutor
 from pi_voice.operators.WhisperOperator import WhisperOperator
@@ -23,13 +23,13 @@ class WhisperProcess:
         self.recorded_audio_event: Event = recorded_audio_event
         self.transcription_finished_event: Event = transcription_finished_event
         self.whisper: WhisperOperator = WhisperOperator()
-        self.executor: ThreadPoolExecutor = ThreadPoolExecutor(max_workers=2)
         self.error_queue: Queue = error_queue
         self.stop_flag: Event = stop_flag
         self.active_processes_count: Synchronized = active_processes_count
 
     def run(self):
         self.active_processes_count.value += 1
+        self.executor: ThreadPoolExecutor = ThreadPoolExecutor(max_workers=2)
         
         while True:
             if self.recorded_audio_event.wait(timeout=2):
