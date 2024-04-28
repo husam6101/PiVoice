@@ -5,6 +5,7 @@ from multiprocessing.queues import Queue
 
 from pi_voice.operators.GPTOperator import GPTOperator
 from pi_voice.processes.ErrorHandling import ErrorSeverity
+from pi_voice import logger
 
 
 class GPT2Process:
@@ -35,10 +36,13 @@ class GPT2Process:
             if self.transcription_finished_event.wait(timeout=3):
                 try:
                     transcript = self.whisper_pipe.recv()
+                    logger.info("Received transcript. Predicting action...")
 
                     future = self.executor.submit(self.gpt2.predict, transcript)
                     action = future.result()
+                    logger.info("Action predicted: " + action)
 
+                    logger.info("Sending action to next process...")
                     self.gpt2_pipe.send(action)
                     self.action_prediction_finished_event.set()
                 except Exception as e:

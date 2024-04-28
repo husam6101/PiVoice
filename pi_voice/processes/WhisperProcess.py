@@ -5,7 +5,7 @@ from multiprocessing.queues import Queue
 from concurrent.futures import ThreadPoolExecutor
 from pi_voice.operators.WhisperOperator import WhisperOperator
 from pi_voice.processes.ErrorHandling import ErrorSeverity
-
+from pi_voice import logger
 
 class WhisperProcess:
     def __init__(
@@ -35,10 +35,13 @@ class WhisperProcess:
             if self.recorded_audio_event.wait(timeout=2):
                 try:
                     audio = self.audio_pipe.recv()
+                    logger.info("Received audio. Processing...")
                     
                     future = self.executor.submit(self.whisper.process, audio)
                     transcript = future.result()
-                    
+                    logger.info("Transcription complete: " + transcript)
+
+                    logger.info("Sending transcript to GPT2 process...")                    
                     self.whisper_pipe.send(transcript)
                     self.transcription_finished_event.set()
                 except Exception as e:

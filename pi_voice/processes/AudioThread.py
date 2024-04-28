@@ -39,7 +39,7 @@ class AudioThread:
                     if audio is None:
                         continue
                     
-                    logger.info("Sending audio to whisper process...")
+                    logger.info("Sending audio to Whisper process...")
                     self.audio_pipe.send(audio)
                     self.recording_audio_finished_event.set()
                 except Exception as e:
