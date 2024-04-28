@@ -74,7 +74,7 @@ class PersonalizedCommandThread:
 
                 try:
                     logger.info("Activating action...")
-                    retry_on_exception(self.action_switcher.take_action, (prediction,))
+                    retry_on_exception(self.action_switcher.take_action, prediction)
                     logger.info("Done.")
                 except Exception as e:
                     self.error_queue.put((str(e), "device_errors", ErrorSeverity.HIGH))
