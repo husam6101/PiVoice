@@ -11,41 +11,41 @@ class ActionSwitcher:
 
     def take_action(self, argument):
         switcher = {
-            "light_on": self.light_on,
-            "light_off": self.light_off,
-            "tv_on": self.tv_on,
-            "tv_off": self.tv_off,
-            "fan_on": self.fan_on,
-            "fan_off": self.fan_off,
-            "do_nothing": self.do_nothing,
+            "light_on": self._light_on,
+            "light_off": self._light_off,
+            "tv_on": self._tv_on,
+            "tv_off": self._tv_off,
+            "fan_on": self._fan_on,
+            "fan_off": self._fan_off,
+            "do_nothing": self._do_nothing,
         }
-        return switcher.get(argument, self.do_nothing)()
+        return switcher.get(argument, self._do_nothing)()
 
-    def light_on(self):
+    def _light_on(self):
         self.light.on()
 
-    def light_off(self):
+    def _light_off(self):
         self.light.off()
 
-    def tv_on(self):
-        pass
+    def _tv_on(self):
+        return
         self.tv_on()
 
-    def tv_off(self):
-        pass
+    def _tv_off(self):
+        return
         self.tv.off()
 
-    def fan_on(self):
+    def _fan_on(self):
         self.fan.on()
 
-    def fan_off(self):
+    def _fan_off(self):
         self.fan.off()
 
-    def do_nothing(self):
+    def _do_nothing(self):
         pass  # default
 
     def reset_all(self):
-        self.light_off()
-        # self.tv_off()
-        self.fan_off()
+        self._light_off()
+        self._tv_off()
+        self._fan_off()
         self.is_ready_device.off()
