@@ -8,6 +8,7 @@ import atexit
 
 from pi_voice import logger
 from pi_voice.switcher.ActionSwitcher import ActionSwitcher
+from concurrent.futures import ThreadPoolExecutor
 
 
 class ErrorHandlingThread:
@@ -28,20 +29,35 @@ class ErrorHandlingThread:
         atexit.register(self.end_all)
         signal.signal(signal.SIGINT, lambda signum, frame: self.end_all())
 
-        # handle errors
+        # handle errors with thread executor
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            executor.submit(self._process_error_receiver_thread)
+            executor.submit(self._thread_error_receiver_thread)
+    
+    def _process_error_receiver_thread(self):
         while True:
-            logger.info("Waiting for error queue...")
+            logger.info("Waiting for process error queue...")
+            message, group, severity = self.process_error_queue.get()
+
+            self._handle_errors(message, group, severity)
+
+    def _thread_error_receiver_thread(self):
+        while True:
+            logger.info("Waiting for thread error queue...")
             message, group, severity = self.thread_error_queue.get()
 
-            if severity == ErrorSeverity.CRITICAL or severity == ErrorSeverity.HIGH:
-                self.end_all()
-                break
-            elif severity == ErrorSeverity.MEDIUM:
-                pass
-            elif severity == ErrorSeverity.LOW:
-                pass
+            self._handle_errors(message, group, severity)
+    
+    def _handle_errors(self, message, group, severity):
+        if severity == ErrorSeverity.CRITICAL or severity == ErrorSeverity.HIGH:
+            self.end_all()
+            return
+        elif severity == ErrorSeverity.MEDIUM:
+            pass
+        elif severity == ErrorSeverity.LOW:
+            pass
 
-            logger.error(message)
+        logger.error(message)
 
     def end_all(self):
         action_switcher = ActionSwitcher()
