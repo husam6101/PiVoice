@@ -14,7 +14,7 @@ def setup(pin, direction):
     pass
 
 def output(pin, value):
-    logger.info(f"Mock GPIO: Setting {pin} to {value}")
+    logger.debug(f"Mock GPIO: Setting pin {pin} to {'HIGH' if value == 1 else 'LOW'}")
 
 def input(pin):
     pass
