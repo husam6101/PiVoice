@@ -1,3 +1,5 @@
+from pi_voice import logger
+
 BCM = 'BCM'
 BOARD = 'BOARD'
 IN = 'IN'
@@ -12,7 +14,7 @@ def setup(pin, direction):
     pass
 
 def output(pin, value):
-    pass
+    logger.info(f"Mock GPIO: Setting {pin} to {value}")
 
 def input(pin):
     pass
