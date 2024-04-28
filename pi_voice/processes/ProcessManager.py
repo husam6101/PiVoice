@@ -15,6 +15,7 @@ from pi_voice.processes.DataRecordingThread import DataRecordingThread
 from pi_voice.processes.PersonalizedCommandThread import PersonalizedCommandThread
 from pi_voice.processes.TakeActionThread import TakeActionThread
 from pi_voice.processes.ErrorHandling import ErrorHandlingThread
+from pi_voice.processes.PipeToThreadQueuesManagerThread import PipeToThreadQueuesManagerThread as P2TQManagerThread
 from concurrent.futures import ThreadPoolExecutor
 
 
@@ -39,13 +40,16 @@ class ProcessManager:
         # stop flag and active processes count for graceful shutdown
 
         self.thread_error_queue: q = q()
+        # self.p2q_sent_event: Event = Event(ctx=mp.get_context())
+        self.take_action_queue: q = q()
+        self.data_recording_queue: q = q()
         self.process_error_queue: mq = mq(ctx=mp.get_context())
 
         self.stop_flag: Event = mp.Event()
         self.active_processes_count: Synchronized = mp.Value(c_int, 0)
 
     def start(self):
-        audio_p = AudioThread(
+        audio_thread = AudioThread(
             self.audio_pipe_sender,
             self.recording_audio_finished_event,
             self.thread_error_queue,
@@ -71,23 +75,30 @@ class ProcessManager:
             self.stop_flag,
             self.active_processes_count,
         )
-        take_action_p = TakeActionThread(
-            self.sensor_switcher,
+        p2tq_manager_thread = P2TQManagerThread(
             self.gpt2_pipe_receiver,
             self.action_prediction_finished_event,
+            # self.p2q_sent_event,
+            [
+                self.take_action_queue,
+                self.data_recording_queue
+            ]
+        )
+        take_action_thread = TakeActionThread(
+            self.action_switcher,
+            self.take_action_queue,
             self.thread_error_queue,
             self.stop_flag,
             self.active_processes_count,
         )
-        data_recording_p = DataRecordingThread(
+        data_recording_thread = DataRecordingThread(
             self.sensor_switcher,
-            self.gpt2_pipe_receiver,
-            self.action_prediction_finished_event,
+            self.data_recording_queue,
             self.thread_error_queue,
             self.stop_flag,
             self.active_processes_count,
         )
-        personalized_command_p = PersonalizedCommandThread(
+        personalized_command_thread = PersonalizedCommandThread(
             self.sensor_switcher,
             self.action_switcher,
             self.thread_error_queue,
@@ -107,12 +118,13 @@ class ProcessManager:
         whisper_process.start()
         gpt2_process.start()
 
-        with ThreadPoolExecutor(max_workers=5) as executor:
+        with ThreadPoolExecutor(max_workers=12) as executor:
             executor.submit(error_handling_thread.run)
-            executor.submit(audio_p.run)
-            executor.submit(data_recording_p.run)
-            executor.submit(take_action_p.run) 
-            # executor.submit(personalized_command_p.run)
+            executor.submit(audio_thread.run)
+            executor.submit(p2tq_manager_thread.run)
+            executor.submit(data_recording_thread.run)
+            executor.submit(take_action_thread.run) 
+            # executor.submit(personalized_command_thread.run)
 
         whisper_process.join()
         gpt2_process.join()

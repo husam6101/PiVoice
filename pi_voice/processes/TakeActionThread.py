@@ -5,21 +5,20 @@ from queue import Queue
 from pi_voice.processes.ErrorHandling import ErrorSeverity
 from pi_voice.switcher.ActionSwitcher import ActionSwitcher
 from pi_voice.utils.common import retry_on_exception
+from pi_voice import logger
 
 
 class TakeActionThread:
     def __init__(
         self,
         action_switcher: ActionSwitcher,
-        gpt2_pipe,
-        action_prediction_finished_event: Event,
+        data_queue: Queue,
         error_queue: Queue,
         stop_flag: Event,
         active_processes_count: Synchronized,
-    ) -> None:
+    ):
         self.action_switcher: ActionSwitcher = action_switcher
-        self.gpt2_pipe = gpt2_pipe
-        self.action_prediction_finished_event: Event = action_prediction_finished_event
+        self.data_queue: Queue = data_queue
         self.error_queue: Queue = error_queue
         self.stop_flag: Event = stop_flag
         self.active_processes_count: Synchronized = active_processes_count
@@ -28,21 +27,17 @@ class TakeActionThread:
         self.active_processes_count.value += 1
 
         while True:
-            if self.action_prediction_finished_event.wait(timeout=4):
-                try:
-                    action = self.gpt2_pipe.recv()
+            try:
+                action = self.data_queue.get(block=True, timeout=4)
+                logger.info(f"Received {action}. Taking action...")
 
-                    retry_on_exception(self.action_switcher.take_action, (action,))
+                retry_on_exception(self.action_switcher.take_action, action)
 
-                except Exception as e:
-                    self.error_queue.put((str(e), "device_errors", ErrorSeverity.HIGH))
-                    continue
-                finally:
-                    self.action_prediction_finished_event.clear()
+                logger.info("Action taken.")
+            except Exception as e:
+                self.error_queue.put((str(e), "device_errors", ErrorSeverity.HIGH))
+                continue
 
-                if self.stop_flag.is_set():
-                    self.active_processes_count.value -= 1
-                    break
-            elif self.stop_flag.is_set():
+            if self.stop_flag.is_set():
                 self.active_processes_count.value -= 1
                 break
