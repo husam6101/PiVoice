@@ -1,5 +1,6 @@
 from pi_voice.operators.DataOperator import DataOperator
 from pi_voice.config import config, get_path_from
+from pi_voice import logger
 
 import datetime
 import time
@@ -23,13 +24,13 @@ def get_next_notable_timestamp():
         )
     )
 
-def retry_on_exception(func, *args, **kwargs):
+def retry_on_exception(func, args=()):
     max_retries = 3
     delay = 0.1
     
     for i in range(max_retries):
         try:
-            return func(*args, **kwargs)
+            return func(*args)
         except Exception as e:
             if i < max_retries - 1:
                 time.sleep(delay)

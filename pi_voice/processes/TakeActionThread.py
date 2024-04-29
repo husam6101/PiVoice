@@ -31,7 +31,7 @@ class TakeActionThread:
                 action = self.data_queue.get(block=True, timeout=4)
                 logger.info(f"Received {action}. Taking action...")
 
-                retry_on_exception(self.action_switcher.take_action, action)
+                retry_on_exception(self.action_switcher.take_action, (action,))
 
                 logger.info("Action taken.")
             except Exception as e:
