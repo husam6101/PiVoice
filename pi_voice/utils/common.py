@@ -14,9 +14,7 @@ def get_time_of_day_and_day_of_week():
     return time_of_day, day_of_week
 
 
-def get_next_notable_timestamp():
-    data_op = DataOperator()
-
+def get_next_notable_timestamp(data_op: DataOperator):
     return data_op.get_next_notable_timestamp(
         data_op.extract_time_ranges(
             data_op.load_csv(get_path_from(config["lgbm"]["dataset"]))

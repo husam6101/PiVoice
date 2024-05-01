@@ -8,6 +8,9 @@ from pi_voice.processes.ErrorHandling import ErrorSeverity
 from pi_voice.switcher.SensorSwitcher import SensorSwitcher
 from pi_voice.switcher.ActionSwitcher import ActionSwitcher
 from pi_voice.utils.synchronization import writing_lgbm_data
+from pi_voice.operators.DataOperator import DataOperator
+from datetime import datetime
+import pandas as pd
 
 from pi_voice.utils.common import (
     get_next_notable_timestamp,
@@ -25,6 +28,7 @@ class PersonalizedCommandThread:
         stop_flag: Event,
         active_processes_count: Synchronized,
     ) -> None:
+        self.data_op = DataOperator()
         self.lgbm: LGBMOperator = LGBMOperator()
         self.sensor_switcher: SensorSwitcher = sensor_switcher
         self.action_switcher: ActionSwitcher = action_switcher
@@ -44,7 +48,7 @@ class PersonalizedCommandThread:
                 try:
                     writing_lgbm_data.acquire(timeout=2.0)
                     logger.info("Getting next target time...")
-                    target_time = retry_on_exception(get_next_notable_timestamp)
+                    target_time = retry_on_exception(get_next_notable_timestamp, (self.data_op,))
                     writing_lgbm_data.release()
                     logger.info("Done. Target time is " + str(target_time))
                 except Exception as e:
@@ -56,8 +60,7 @@ class PersonalizedCommandThread:
                     continue
 
                 logger.info("Calculating remaining time...")
-                current_time = time.time()
-                remaining_time = target_time - current_time
+                remaining_time = self.data_op._get_time_diff(target_time, datetime.now().time())
                 logger.info("Done. Remaining time is " + str(remaining_time))
 
                 if target_time is None:
@@ -65,8 +68,8 @@ class PersonalizedCommandThread:
                     continue
 
                 if remaining_time > 0:
-                    logger.info("Waiting for " + str(remaining_time))
-                    time.sleep(remaining_time)
+                    logger.info(f"Waiting for {str(remaining_time)}s")
+                    time.sleep(1)
 
                 prediction = self._predict_with_lgbm()
                 if prediction is None:
@@ -79,10 +82,10 @@ class PersonalizedCommandThread:
                 except Exception as e:
                     self.error_queue.put((str(e), "device_errors", ErrorSeverity.HIGH))
                     continue
-                finally:
-                    time.sleep(61)
             except Exception as e:
                 self.error_queue.put((str(e), "process_errors", ErrorSeverity.LOW))
+            finally:
+                time.sleep(61)
 
     def _predict_with_lgbm(self):
         try:
@@ -115,6 +118,7 @@ class PersonalizedCommandThread:
             prediction = self.lgbm.predict(data_point)
             logger.info("Done. Prediction: " + prediction)
         except Exception as e:
+            logger.error(f"Error occurred: {e}")
             self.error_queue.put((str(e), "model_errors", ErrorSeverity.CRITICAL))
             return None
 

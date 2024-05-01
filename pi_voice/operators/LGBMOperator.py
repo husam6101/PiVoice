@@ -6,6 +6,7 @@ import pandas as pd
 from pi_voice.utils.synchronization import writing_lgbm_data, writing_lgbm_model
 from pi_voice.operators.DataOperator import DataOperator
 from pi_voice.config import config, get_path_from
+from pi_voice import logger
 
 
 class LGBMOperator:
@@ -34,9 +35,13 @@ class LGBMOperator:
             'Sat': 6,
             'Sun': 7
         }
-        df['time_of_day'] = pd.to_numeric(df['time_of_day'], errors='coerce')
+        df['time_of_day'] = df['time_of_day'].apply(self._convert_time)
         df['day_of_week'] = df['day_of_week'].map(day_mapping)
         return df
+
+    def _convert_time(self, time_str):
+        hours, minutes = map(int, time_str.split(':'))
+        return hours + minutes / 60
 
     def _train_model(self, df, target_column):
         X = df.drop(target_column, axis=1)
@@ -102,17 +107,15 @@ class LGBMOperator:
 
     def predict(self, data):
         model, label_encoder = self._load_model()
-        df = pd.DataFrame(data)
+        df = pd.DataFrame(data, index=[0])  # Convert data to
         processed_data = self._preprocess_data(df)
         prediction_probabilities = model.predict(processed_data)
-
         # Get the index of the max probability
         predicted_index = np.argmax(prediction_probabilities, axis=1)
         # Transform this index back into the original class label
         predicted_command = label_encoder.inverse_transform(predicted_index)
 
         return predicted_command[0]
-
 
 def run_test():
     # Create an instance of LGBMOperator
