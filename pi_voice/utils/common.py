@@ -4,7 +4,6 @@ from pi_voice import logger
 
 import datetime
 import time
-import asyncio
 
 
 # Time of Day and Day of Week
