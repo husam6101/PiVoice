@@ -6,7 +6,7 @@ base_directory = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Configuration dictionary with relative paths
 config = {
     "baseDirectory": base_directory,
-    "pinConfig": "pin_config.json",
+    "pinConfig": "resources/pin_config.json",
     "lgbm": {
         "dataset": "datasets/sensor_data.csv",
         "model": "models/lgbm/model.txt",
@@ -26,7 +26,7 @@ config = {
             "do_nothing": 6,
         },
     },
-    "audio": "output.mp3",
+    "audio": "resources/output.mp3",
     "sensors": {
         "temperatureHumidity": "DHT22",
         "lightIntensity": "UUGear Light Sensor",
