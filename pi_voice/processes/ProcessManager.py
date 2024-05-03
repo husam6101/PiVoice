@@ -15,7 +15,9 @@ from pi_voice.processes.DataRecordingThread import DataRecordingThread
 from pi_voice.processes.PersonalizedCommandThread import PersonalizedCommandThread
 from pi_voice.processes.TakeActionThread import TakeActionThread
 from pi_voice.processes.ErrorHandling import ErrorHandlingThread
-from pi_voice.processes.PipeToThreadQueuesManagerThread import PipeToThreadQueuesManagerThread as P2TQManagerThread
+from pi_voice.processes.PipeToThreadQueuesManagerThread import (
+    PipeToThreadQueuesManagerThread as P2TQManagerThread,
+)
 from concurrent.futures import ThreadPoolExecutor
 
 
@@ -79,10 +81,7 @@ class ProcessManager:
             self.gpt2_pipe_receiver,
             self.action_prediction_finished_event,
             # self.p2q_sent_event,
-            [
-                self.take_action_queue,
-                self.data_recording_queue
-            ]
+            [self.take_action_queue, self.data_recording_queue],
         )
         take_action_thread = TakeActionThread(
             self.action_switcher,
@@ -123,8 +122,8 @@ class ProcessManager:
             executor.submit(audio_thread.run)
             executor.submit(p2tq_manager_thread.run)
             executor.submit(data_recording_thread.run)
-            executor.submit(take_action_thread.run) 
-            # executor.submit(personalized_command_thread.run)
+            executor.submit(take_action_thread.run)
+            executor.submit(personalized_command_thread.run)
 
         whisper_process.join()
         gpt2_process.join()
