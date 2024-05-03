@@ -69,7 +69,7 @@ class PersonalizedCommandThread:
 
                 if remaining_time > 0:
                     logger.info(f"Waiting for {str(remaining_time)}s")
-                    time.sleep(1)
+                    time.sleep(remaining_time)
 
                 prediction = self._predict_with_lgbm()
                 if prediction is None:
