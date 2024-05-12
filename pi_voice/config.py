@@ -32,10 +32,10 @@ config = {
         "lightIntensity": "UUGear Light Sensor",
     },
     "devices": {
-        "screen": "<no-screen-yet>",
+        "screen": "KY-034 7 Color Flashing LED Module",
         "light": "Bulb",
         "fan": "Fan",
-        "isReadyLight": "KY-034 7 Color Flashing LED Module",
+        "isReadyLight": "<none>",
     },
 }
 
